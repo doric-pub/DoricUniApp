@@ -23,6 +23,8 @@ export class Popover extends DoricPlugin {
     if (this.onModelsChange) {
       this.onModelsChange(this.doricModels);
     }
+
+    callResolve(this.context.id, callbackId);
   }
 
   public dismiss(callbackId: string, args: any) {
@@ -35,5 +37,7 @@ export class Popover extends DoricPlugin {
         this.onModelsChange(this.doricModels);
       }
     }
+
+    callResolve(this.context.id, callbackId);
   }
 }
