@@ -34,6 +34,7 @@ import { HelloDoric } from "../../demo/HelloDoric";
 import { ImageDemo } from "../../demo/ImageDemo";
 import { InputDemo } from "../../demo/InputDemo";
 import { LayoutDemo } from "../../demo/LayoutDemo";
+import { LayoutTest } from "../../demo/LayoutTestDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
 import { SnakePanel } from "../../demo/Snake";
 import { SwitchDemo } from "../../demo/SwitchDemo";
@@ -70,6 +71,8 @@ export default Vue.extend({
       classType = InputDemo;
     } else if (name == "LayoutDemo") {
       classType = LayoutDemo;
+    } else if (name == "LayoutTestDemo") {
+      classType = LayoutTest;
     } else if (name == "ModalDemo") {
       classType = ModalDemo;
     } else if (name == "Snake") {

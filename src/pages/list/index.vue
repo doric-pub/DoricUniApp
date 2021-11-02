@@ -7,6 +7,7 @@
     <text class="cell" @click="click('ImageDemo')">ImageDemo</text>
     <text class="cell" @click="click('InputDemo')">InputDemo</text>
     <text class="cell" @click="click('LayoutDemo')">LayoutDemo</text>
+    <text class="cell" @click="click('LayoutTestDemo')">LayoutTestDemo</text>
     <text class="cell" @click="click('ModalDemo')">ModalDemo</text>
     <text class="cell" @click="click('Snake')">Snake</text>
     <text class="cell" @click="click('SwitchDemo')">SwitchDemo</text>
