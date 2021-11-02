@@ -174,7 +174,46 @@ export default Vue.extend({
             doricStyle["border-radius"] = toPixelString(
               props.corners as number
             );
+          } else if (typeof props.corners === "object") {
+            let corners = props.corners as {
+              leftTop: number;
+              rightTop: number;
+              leftBottom: number;
+              rightBottom: number;
+            };
+            doricStyle["border-top-left-radius"] = toPixelString(
+              corners.leftTop
+            );
+            doricStyle["border-top-right-radius"] = toPixelString(
+              corners.rightTop
+            );
+            doricStyle["border-bottom-left-radius"] = toPixelString(
+              corners.leftBottom
+            );
+            doricStyle["border-bottom-right-radius"] = toPixelString(
+              corners.rightBottom
+            );
           }
+        }
+
+        if (props.shadow) {
+          const opacity = props.shadow.opacity || 0;
+          let boxShadow;
+          if (opacity > 0) {
+            const offsetX = props.shadow.offsetX || 0;
+            const offsetY = props.shadow.offsetY || 0;
+            const shadowColor = props.shadow.color || 0xff000000;
+            const shadowRadius = props.shadow.radius;
+            const alpha = opacity * 255;
+            boxShadow = `${toPixelString(offsetX)} ${toPixelString(
+              offsetY
+            )} ${toPixelString(shadowRadius)} ${toRGBAString(
+              ((<any>shadowColor) & 0xffffff) | ((alpha & 0xff) << 24)
+            )} `;
+          } else {
+            boxShadow = "";
+          }
+          doricStyle["box-shadow"] = boxShadow;
         }
 
         doricModel.cssStyle = doricStyle;

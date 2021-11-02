@@ -1,5 +1,6 @@
 <template>
   <view class="demo-container">
+    <text class="cell" @click="click('EffectsDemo')">EffectsDemo</text>
     <text class="cell" @click="click('Gobang')">Gobang</text>
     <text class="cell" @click="click('HelloDoric')">HelloDoric</text>
     <text class="cell" @click="click('LayoutDemo')">LayoutDemo</text>

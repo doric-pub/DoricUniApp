@@ -16,6 +16,7 @@ import {
 import { DoricModel } from "../../doric/utils";
 import { Modal } from "../../doric/plugin/modal";
 
+import { EffectsDemo } from "../../demo/EffectsDemo";
 import { HelloDoric } from "../../demo/HelloDoric";
 import { SnakePanel } from "../../demo/Snake";
 import { LayoutDemo } from "../../demo/LayoutDemo";
@@ -35,7 +36,9 @@ export default Vue.extend({
     const contextId = uniqueId("context");
 
     let classType: ClassType<Panel>;
-    if (name == "HelloDoric") {
+    if (name == "EffectsDemo") {
+      classType = EffectsDemo;
+    } else if (name == "HelloDoric") {
       classType = HelloDoric;
     } else if (name == "Snake") {
       classType = SnakePanel;
