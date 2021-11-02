@@ -29,17 +29,18 @@ import { Popover } from "../../doric/plugin/popover";
 
 import { ComponentDemo } from "../../demo/ComponentDemo";
 import { EffectsDemo } from "../../demo/EffectsDemo";
+import { Gobang } from "../../demo/Gobang";
 import { HelloDoric } from "../../demo/HelloDoric";
 import { ImageDemo } from "../../demo/ImageDemo";
-import { SnakePanel } from "../../demo/Snake";
 import { LayoutDemo } from "../../demo/LayoutDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
-import { Gobang } from "../../demo/Gobang";
+import { SnakePanel } from "../../demo/Snake";
+import { SwitchDemo } from "../../demo/SwitchDemo";
 
 let global = new Function("return this")();
 global.Environment = {
-  platform: 'uni-app'
-}
+  platform: "uni-app",
+};
 
 export default Vue.extend({
   data() {
@@ -70,6 +71,8 @@ export default Vue.extend({
       classType = ModalDemo;
     } else if (name == "Snake") {
       classType = SnakePanel;
+    } else if (name == "SwitchDemo") {
+      classType = SwitchDemo;
     }
     const context = createContext(contextId, classType!!);
 
