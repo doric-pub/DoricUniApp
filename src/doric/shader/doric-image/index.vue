@@ -14,6 +14,7 @@ import Vue from "vue";
 
 import { Image, ScaleType } from "doric";
 import { DoricModel, toCSSStyle } from "../../../doric/utils";
+import { callResponse } from "@/doric/context";
 
 export default Vue.extend({
   props: {
@@ -57,6 +58,10 @@ export default Vue.extend({
         }
 
         this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
+
+        if (props.loadCallback) {
+          this.$set(this.$data, "loadCallback", props.loadCallback);
+        }
       },
     },
   },
@@ -65,6 +70,7 @@ export default Vue.extend({
       cssStyle: null,
       imageUrl: null,
       mode: "scaleToFill",
+      loadCallback: null,
     };
   },
 
@@ -82,6 +88,19 @@ export default Vue.extend({
         .map((e) => `${e[0]}:${e[1]}`)
         .join(";");
       this.$set(this.$data, "cssStyle", cssStyle);
+
+      let doricModel = this.$props.doricModelProps;
+      if ((doricModel.idList, this.$data.loadCallback)) {
+        callResponse(
+          doricModel.contextId,
+          doricModel.idList,
+          this.$data.loadCallback,
+          {
+            width: event.detail.width,
+            height: event.detail.height,
+          }
+        );
+      }
     },
   },
 });
