@@ -40,7 +40,13 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { LayoutSpec, NativeViewModel, View } from "doric";
+import {
+  GradientColor,
+  GradientOrientation,
+  LayoutSpec,
+  NativeViewModel,
+  View,
+} from "doric";
 import { toPixelString, toRGBAString, DoricModel } from "../../../doric/utils";
 import { callResponse } from "../../../doric/context";
 
@@ -156,10 +162,81 @@ export default Vue.extend({
         }
         doricStyle["height"] = height;
 
-        if (props.backgroundColor !== undefined) {
-          doricStyle["background-color"] = toRGBAString(
-            props.backgroundColor as unknown as number
-          );
+        if (props.backgroundColor) {
+          if (typeof props.backgroundColor === "number") {
+            doricStyle["background-color"] = toRGBAString(
+              props.backgroundColor as unknown as number
+            );
+          } else if (typeof props.backgroundColor === "object") {
+            let gradient = props.backgroundColor as GradientColor;
+
+            let deg = "";
+            switch (gradient.orientation) {
+              case GradientOrientation.TOP_BOTTOM:
+                deg = "180deg";
+                break;
+              case GradientOrientation.TR_BL:
+                deg = "-135deg";
+                break;
+              case GradientOrientation.RIGHT_LEFT:
+                deg = "-90deg";
+                break;
+              case GradientOrientation.BR_TL:
+                deg = "-45deg";
+                break;
+              case GradientOrientation.BOTTOM_TOP:
+                deg = "0deg";
+                break;
+              case GradientOrientation.BL_TR:
+                deg = "45deg";
+                break;
+              case GradientOrientation.LEFT_RIGHT:
+                deg = "90deg";
+                break;
+              case GradientOrientation.TL_BR:
+                deg = "135deg";
+                break;
+            }
+
+            if (gradient.start && gradient.end) {
+              doricStyle[
+                "background-image"
+              ] = `linear-gradient(${deg}, ${toRGBAString(
+                gradient.start as unknown as number
+              )}, ${toRGBAString(gradient.end as unknown as number)});`;
+            } else {
+              if (gradient.locations) {
+                console.log(gradient);
+                doricStyle["background-image"] =
+                  "linear-gradient(45deg, red 0 50%, blue 50% 100%)";
+                if (gradient.colors) {
+                  const colors = gradient.colors
+                    .map(
+                      (e, index) =>
+                        `${toRGBAString(e as unknown as number)} ${
+                          (
+                            (gradient.locations!![index] as unknown as number) *
+                            100
+                          ).toFixed(2) + "%"
+                        }`
+                    )
+                    .join(",");
+                  doricStyle[
+                    "background-image"
+                  ] = `linear-gradient(${deg}, ${colors});`;
+                }
+              } else {
+                if (gradient.colors) {
+                  const colors = gradient.colors
+                    .map((e) => `${toRGBAString(e as unknown as number)}`)
+                    .join(",");
+                  doricStyle[
+                    "background-image"
+                  ] = `linear-gradient(${deg}, ${colors});`;
+                }
+              }
+            }
+          }
         }
 
         if (props.x) {
