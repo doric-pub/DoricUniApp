@@ -83,4 +83,43 @@ export class Modal extends DoricPlugin {
     }),
       uni.showModal(option);
   }
+
+  public prompt(
+    callbackId: string,
+    args: {
+      title?: string;
+      msg?: string;
+      okLabel?: string;
+      cancelLabel?: string;
+      text?: string;
+      defaultText?: string;
+    }
+  ) {
+    let option = {} as any;
+    if (args.title) {
+      option.title = args.title;
+    }
+    if (args.okLabel) {
+      option.confirmText = args.okLabel;
+    }
+    if (args.cancelLabel) {
+      option.cancelText = args.cancelLabel;
+    }
+    if (args.defaultText) {
+      option.placeholderText = args.defaultText;
+    }
+    if (args.text) {
+      option.content = args.text;
+    }
+
+    option.editable = true;
+    (option.success = (result: any) => {
+      if (result.confirm) {
+        callResolve(this.context.id, callbackId, result.content);
+      } else {
+        callReject(this.context.id, callbackId);
+      }
+    }),
+      uni.showModal(option);
+  }
 }

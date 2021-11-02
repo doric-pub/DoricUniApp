@@ -128,10 +128,10 @@ export class ModalDemo extends Panel {
                         layoutConfig: layoutConfig().just(),
                         onClick: () => {
                             modal(this.context).prompt({
-                                msg: 'This is Prompt.',
+                                defaultText: 'This is Prompt.',
                                 title: 'Prompt title',
-                                okLabel: "OkLabel",
-                                cancelLabel: 'CancelLabel',
+                                okLabel: "Ok",
+                                cancelLabel: 'Cancel',
                             }).then(
                                 e => {
                                     modal(this.context).toast(`Clicked OK.Input:${e}`)
