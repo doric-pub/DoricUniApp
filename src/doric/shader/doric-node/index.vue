@@ -55,6 +55,13 @@
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
+  <DoricInput
+    v-else-if="
+      type === 'Input' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
+    :doricModelProps="doricModel"
+    @click.native.stop="onclick"
+  />
   <view v-else>
     <text
       v-if="
@@ -86,6 +93,7 @@ import DoricStack from "../doric-stack/index.vue";
 import DoricRoot from "../doric-root/index.vue";
 import DoricScroller from "../doric-scroller/index.vue";
 import DoricSwitch from "../doric-switch/index.vue";
+import DoricInput from "../doric-input/index.vue";
 
 export default Vue.extend({
   props: {
@@ -353,6 +361,7 @@ export default Vue.extend({
     DoricRoot,
     DoricScroller,
     DoricSwitch,
+    DoricInput,
   },
 });
 </script>
