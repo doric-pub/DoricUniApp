@@ -1,15 +1,39 @@
 import { callReject, callResolve, Context, DoricPlugin } from "../context";
+import { DoricModel } from "../utils";
 
 export class Popover extends DoricPlugin {
+  public onModelsChange?: Function;
+
+  private doricModels: Array<DoricModel> = [];
+
   constructor(context: Context) {
     super(context);
   }
 
   public show(callbackId: string, args: any) {
-    console.log("popover show", args)
+    let model = {
+      contextId: this.context.id,
+      nativeViewModel: args,
+      cssStyle: {},
+      idList: [args.id],
+    } as DoricModel;
+
+    this.doricModels.push(model);
+
+    if (this.onModelsChange) {
+      this.onModelsChange(this.doricModels);
+    }
   }
 
   public dismiss(callbackId: string, args: any) {
-    console.log("popover dismiss", args)
+    if (args) {
+      console.log("popover dismiss", args);
+    } else {
+      this.doricModels.length = 0;
+
+      if (this.onModelsChange) {
+        this.onModelsChange(this.doricModels);
+      }
+    }
   }
 }

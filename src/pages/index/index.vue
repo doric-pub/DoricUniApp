@@ -1,6 +1,15 @@
 <template>
   <view class="doric-container">
-    <DoricNode :doricModelProps="doricModel"></DoricNode>
+    <view class="doric-node-container">
+      <DoricNode :doricModelProps="doricModel"></DoricNode>
+    </view>
+    <view v-if="popoverDoricModels.length != 0" class="doric-popover-container">
+      <DoricNode
+        v-for="item in popoverDoricModels"
+        v-bind:key="item.nativeViewModel.id"
+        :doricModelProps="item"
+      />
+    </view>
   </view>
 </template>
 
@@ -31,6 +40,7 @@ export default Vue.extend({
   data() {
     return {
       doricModel: null,
+      popoverDoricModels: [],
     };
   },
   onLoad(option: AnyObject) {
@@ -59,16 +69,23 @@ export default Vue.extend({
     global.context = context;
 
     context.plugins.set("modal", new Modal(context));
-    context.plugins.set("popover", new Popover(context));
+
+    const popover = new Popover(context);
+    let self = this;
+    popover.onModelsChange = function (popoverDoricModels: DoricModel[]) {
+      self.$set(self.$data, "popoverDoricModels", popoverDoricModels);
+    };
+    context.plugins.set("popover", popover);
 
     context.hookAfter = () => {
       console.log("hookAfter", panel.getRootView().toModel());
-      this.$set(this.$data, "doricModel", {
+      let model = {
         contextId,
         nativeViewModel: panel.getRootView().toModel(),
         cssStyle: {},
         idList: [panel.getRootView().viewId],
-      } as DoricModel);
+      } as DoricModel;
+      this.$set(this.$data, "doricModel", model);
       callEntityMethod(context.id, "__onCreate__");
     };
   },
@@ -110,6 +127,19 @@ body {
 }
 
 .doric-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.doric-node-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.doric-popover-container {
+  position: absolute;
   width: 100%;
   height: 100%;
 }
