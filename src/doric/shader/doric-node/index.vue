@@ -34,7 +34,9 @@
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
-  <text v-else>Error:{{ type }}</text>
+  <view v-else>
+    <text v-if="type !== null">Error: {{ type }}</text></view
+  >
 </template>
 
 <script lang="ts">
