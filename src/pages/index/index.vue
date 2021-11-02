@@ -27,14 +27,19 @@ import { DoricModel } from "../../doric/utils";
 import { Modal } from "../../doric/plugin/modal";
 import { Popover } from "../../doric/plugin/popover";
 
+import { ComponentDemo } from "../../demo/ComponentDemo";
 import { EffectsDemo } from "../../demo/EffectsDemo";
 import { HelloDoric } from "../../demo/HelloDoric";
+import { ImageDemo } from "../../demo/ImageDemo";
 import { SnakePanel } from "../../demo/Snake";
 import { LayoutDemo } from "../../demo/LayoutDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
 import { Gobang } from "../../demo/Gobang";
 
 let global = new Function("return this")();
+global.Environment = {
+  platform: 'uni-app'
+}
 
 export default Vue.extend({
   data() {
@@ -49,12 +54,16 @@ export default Vue.extend({
     const contextId = uniqueId("context");
 
     let classType: ClassType<Panel>;
-    if (name == "EffectsDemo") {
+    if (name == "ComponentDemo") {
+      classType = ComponentDemo;
+    } else if (name == "EffectsDemo") {
       classType = EffectsDemo;
     } else if (name == "Gobang") {
       classType = Gobang;
     } else if (name == "HelloDoric") {
       classType = HelloDoric;
+    } else if (name == "ImageDemo") {
+      classType = ImageDemo;
     } else if (name == "LayoutDemo") {
       classType = LayoutDemo;
     } else if (name == "ModalDemo") {

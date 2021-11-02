@@ -1,6 +1,6 @@
 <template>
   <div class="doric-text" :style="cssStyle">
-    <span>{{ text }}</span>
+    <span v-if="text != null">{{ text }}</span>
   </div>
 </template>
 

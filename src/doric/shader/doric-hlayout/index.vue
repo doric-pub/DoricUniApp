@@ -74,6 +74,9 @@ export default Vue.extend({
             let layoutConfig = child.nativeViewModel.props
               .layoutConfig as LayoutConfig;
 
+            if (layoutConfig.widthSpec == LayoutSpec.MOST) {
+              childStyle["width"] = "100%";
+            }
             if (layoutConfig.heightSpec == LayoutSpec.MOST) {
               childStyle["height"] = "100%";
             }

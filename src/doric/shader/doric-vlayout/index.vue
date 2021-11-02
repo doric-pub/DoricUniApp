@@ -77,6 +77,9 @@ export default Vue.extend({
             if (layoutConfig.widthSpec == LayoutSpec.MOST) {
               childStyle["width"] = "100%";
             }
+            if (layoutConfig.heightSpec == LayoutSpec.MOST) {
+              childStyle["height"] = "100%";
+            }
 
             if (layoutConfig.weight) {
               childStyle["flex"] = `${layoutConfig?.weight}`;

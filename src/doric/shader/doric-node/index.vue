@@ -1,41 +1,67 @@
 <template>
   <DoricText
-    v-if="type === 'Text'"
+    v-if="
+      type === 'Text' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricImage
-    v-else-if="type === 'Image'"
+    v-else-if="
+      type === 'Image' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricVLayout
-    v-else-if="type === 'VLayout'"
+    v-else-if="
+      type === 'VLayout' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricHLayout
-    v-else-if="type === 'HLayout'"
+    v-else-if="
+      type === 'HLayout' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricStack
-    v-else-if="type === 'Stack'"
+    v-else-if="
+      type === 'Stack' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricRoot
-    v-else-if="type === 'Root'"
+    v-else-if="
+      type === 'Root' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <DoricScroller
-    v-else-if="type === 'Scroller'"
+    v-else-if="
+      type === 'Scroller' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
+    :doricModelProps="doricModel"
+    @click.native.stop="onclick"
+  />
+  <DoricSwitch
+    v-else-if="
+      type === 'Switch' && !(doricModel.nativeViewModel.props.hidden === true)
+    "
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
   <view v-else>
-    <text v-if="type !== null">Error: {{ type }}</text></view
+    <text
+      v-if="
+        type !== null && !(doricModel.nativeViewModel.props.hidden === true)
+      "
+      >Error: {{ type }}</text
+    ></view
   >
 </template>
 
@@ -59,6 +85,7 @@ import DoricHLayout from "../doric-hlayout/index.vue";
 import DoricStack from "../doric-stack/index.vue";
 import DoricRoot from "../doric-root/index.vue";
 import DoricScroller from "../doric-scroller/index.vue";
+import DoricSwitch from "../doric-switch/index.vue";
 
 export default Vue.extend({
   props: {
@@ -325,6 +352,7 @@ export default Vue.extend({
     DoricStack,
     DoricRoot,
     DoricScroller,
+    DoricSwitch,
   },
 });
 </script>

@@ -26,7 +26,14 @@ export default Vue.extend({
           "cssStyle",
           toCSSStyle((newVal as DoricModel).cssStyle)
         );
-        this.$set(this.$data, "imageUrl", props.imageUrl);
+
+        if (props.imageUrl) {
+          this.$set(this.$data, "imageUrl", props.imageUrl);
+        }
+        
+        if (props.imageBase64) {
+          this.$set(this.$data, "imageUrl", props.imageBase64);
+        }
       },
     },
   },
