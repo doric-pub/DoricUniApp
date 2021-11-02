@@ -14,12 +14,15 @@ import {
   destroyContext,
 } from "../../doric/context";
 import { DoricModel } from "../../doric/utils";
+
 import { Modal } from "../../doric/plugin/modal";
+import { Popover } from "../../doric/plugin/popover";
 
 import { EffectsDemo } from "../../demo/EffectsDemo";
 import { HelloDoric } from "../../demo/HelloDoric";
 import { SnakePanel } from "../../demo/Snake";
 import { LayoutDemo } from "../../demo/LayoutDemo";
+import { ModalDemo } from "../../demo/ModalDemo";
 import { Gobang } from "../../demo/Gobang";
 
 let global = new Function("return this")();
@@ -38,14 +41,16 @@ export default Vue.extend({
     let classType: ClassType<Panel>;
     if (name == "EffectsDemo") {
       classType = EffectsDemo;
-    } else if (name == "HelloDoric") {
-      classType = HelloDoric;
-    } else if (name == "Snake") {
-      classType = SnakePanel;
-    } else if (name == "LayoutDemo") {
-      classType = LayoutDemo;
     } else if (name == "Gobang") {
       classType = Gobang;
+    } else if (name == "HelloDoric") {
+      classType = HelloDoric;
+    } else if (name == "LayoutDemo") {
+      classType = LayoutDemo;
+    } else if (name == "ModalDemo") {
+      classType = ModalDemo;
+    } else if (name == "Snake") {
+      classType = SnakePanel;
     }
     const context = createContext(contextId, classType!!);
 
@@ -54,6 +59,7 @@ export default Vue.extend({
     global.context = context;
 
     context.plugins.set("modal", new Modal(context));
+    context.plugins.set("popover", new Popover(context));
 
     context.hookAfter = () => {
       console.log("hookAfter", panel.getRootView().toModel());

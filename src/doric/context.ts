@@ -2,6 +2,7 @@ import {
   BridgeContext,
   Panel,
   ClassType,
+  //@ts-ignore
   registerViewTreeObserver,
   uniqueId,
 } from "doric";
@@ -96,6 +97,8 @@ let nativeBridge = function (
       }
       let fun = Reflect.get(plugin, method);
       Reflect.apply(fun, plugin, argumentsList);
+    } else {
+      console.error(`no plugin found for namespace ${namespace}`);
     }
   }
 };

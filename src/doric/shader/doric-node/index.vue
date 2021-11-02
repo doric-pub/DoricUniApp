@@ -206,9 +206,6 @@ export default Vue.extend({
               )}, ${toRGBAString(gradient.end as unknown as number)});`;
             } else {
               if (gradient.locations) {
-                console.log(gradient);
-                doricStyle["background-image"] =
-                  "linear-gradient(45deg, red 0 50%, blue 50% 100%)";
                 if (gradient.colors) {
                   const colors = gradient.colors
                     .map(

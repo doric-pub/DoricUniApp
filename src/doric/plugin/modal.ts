@@ -31,5 +31,56 @@ export class Modal extends DoricPlugin {
     });
   }
 
-  public alert(callbackId: string, args: any) {}
+  public alert(
+    callbackId: string,
+    args: {
+      title?: string;
+      msg: string;
+      okLabel?: string;
+    }
+  ) {
+    let option = {} as any;
+    if (args.title) {
+      option.title = args.title;
+    }
+    if (args.okLabel) {
+      option.confirmText = args.okLabel;
+    }
+    option.content = args.msg;
+    option.showCancel = false;
+    (option.success = () => {
+      callResolve(this.context.id, callbackId);
+    }),
+      uni.showModal(option);
+  }
+
+  public confirm(
+    callbackId: string,
+    args: {
+      title?: string;
+      msg: string;
+      okLabel?: string;
+      cancelLabel?: string;
+    }
+  ) {
+    let option = {} as any;
+    if (args.title) {
+      option.title = args.title;
+    }
+    if (args.okLabel) {
+      option.confirmText = args.okLabel;
+    }
+    if (args.cancelLabel) {
+      option.cancelText = args.cancelLabel;
+    }
+    option.content = args.msg;
+    (option.success = (result: any) => {
+      if (result.confirm) {
+        callResolve(this.context.id, callbackId);
+      } else {
+        callReject(this.context.id, callbackId);
+      }
+    }),
+      uni.showModal(option);
+  }
 }
