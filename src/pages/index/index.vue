@@ -8,7 +8,11 @@
 import Vue from "vue";
 
 import { ClassType, Panel, uniqueId } from "doric";
-import { callEntityMethod, createContext } from "../../doric/context";
+import {
+  callEntityMethod,
+  createContext,
+  destroyContext,
+} from "../../doric/context";
 import { DoricModel } from "../../doric/utils";
 import { Modal } from "../../doric/plugin/modal";
 
@@ -84,6 +88,7 @@ export default Vue.extend({
   },
   onUnload() {
     callEntityMethod(context.id, "__onDestroy__");
+    destroyContext(this.$data.doricModel.contextId);
   },
   methods: {},
 });
