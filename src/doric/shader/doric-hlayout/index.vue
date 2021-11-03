@@ -1,5 +1,5 @@
 <template>
-  <view class="doric-hlayout" :style="cssStyle">
+  <view :id="id" class="doric-hlayout" :style="cssStyle">
     <DoricNode
       v-for="(item, index) in children"
       v-bind:key="item.nativeViewModel.id"
@@ -35,6 +35,8 @@ export default Vue.extend({
       immediate: true,
       handler(newVal) {
         const doricModel = newVal as DoricModel;
+        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
+
         const nativeViewModel = doricModel.nativeViewModel;
         const props = nativeViewModel.props as Partial<HLayout>;
         const doricStyle = doricModel.cssStyle;
@@ -104,8 +106,12 @@ export default Vue.extend({
   },
   data() {
     return {
-      children: null,
+      // self data
+      id: null,
       cssStyle: null,
+
+      // children data
+      children: null,
       childStyles: null,
     };
   },

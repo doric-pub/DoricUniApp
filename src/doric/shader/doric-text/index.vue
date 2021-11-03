@@ -1,5 +1,5 @@
 <template>
-  <div class="doric-text" :style="cssStyle">
+  <div :id="id" class="doric-text" :style="cssStyle">
     <span v-if="text != null">{{ text }}</span>
   </div>
 </template>
@@ -32,9 +32,11 @@ export default Vue.extend({
     doricModelProps: {
       immediate: true,
       handler(newVal) {
-        const props = (newVal as DoricModel).nativeViewModel
-          .props as Partial<Text>;
-        const doricStyle = (newVal as DoricModel).cssStyle;
+        const doricModel = newVal as DoricModel;
+        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
+
+        const props = doricModel.nativeViewModel.props as Partial<Text>;
+        const doricStyle = doricModel.cssStyle;
         if (props.textSize) {
           doricStyle["font-size"] = toPixelString(props.textSize);
         }
@@ -68,7 +70,9 @@ export default Vue.extend({
 
   data() {
     return {
+      id: null,
       cssStyle: null,
+
       text: null,
     };
   },

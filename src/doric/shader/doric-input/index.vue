@@ -1,5 +1,5 @@
 <template>
-  <input class="doric-input" :style="cssStyle" />
+  <input :id="id" class="doric-input" :style="cssStyle" />
 </template>
 
 <script lang="ts">
@@ -18,13 +18,15 @@ export default Vue.extend({
       immediate: true,
       handler(newVal) {
         const doricModel = newVal as DoricModel;
+        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
+
         this.$set(this.$data, "cssStyle", toCSSStyle(doricModel.cssStyle));
       },
     },
   },
   data() {
     return {
-      children: null,
+      id: null,
       cssStyle: null,
     };
   },

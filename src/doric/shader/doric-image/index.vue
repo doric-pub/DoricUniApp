@@ -1,5 +1,6 @@
 <template>
   <image
+    :id="id"
     class="doric-image"
     :src="imageUrl"
     :style="cssStyle"
@@ -27,6 +28,8 @@ export default Vue.extend({
       immediate: true,
       handler(newVal) {
         const doricModel = newVal as DoricModel;
+        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
+
         const props = doricModel.nativeViewModel.props as Partial<Image>;
 
         const doricStyle = doricModel.cssStyle;
@@ -59,13 +62,11 @@ export default Vue.extend({
           }
         }
 
-        let cssStyle = (newVal as DoricModel).cssStyle;
-
         if (props.isBlur) {
-          cssStyle["filter"] = "blur(8px)";
+          doricStyle["filter"] = "blur(8px)";
         }
 
-        this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
+        this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
 
         if (props.loadCallback) {
           this.$set(this.$data, "loadCallback", props.loadCallback);
@@ -75,7 +76,9 @@ export default Vue.extend({
   },
   data() {
     return {
+      id: null,
       cssStyle: null,
+      
       imageUrl: null,
       mode: "scaleToFill",
       loadCallback: null,

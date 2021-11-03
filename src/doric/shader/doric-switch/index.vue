@@ -1,5 +1,6 @@
 <template>
   <switch
+    :id="id"
     class="doric-switch"
     :style="cssStyle"
     :checked="checked"
@@ -25,9 +26,11 @@ export default Vue.extend({
     doricModelProps: {
       immediate: true,
       handler(newVal) {
-        const props = (newVal as DoricModel).nativeViewModel
-          .props as Partial<Switch>;
-        const doricStyle = (newVal as DoricModel).cssStyle;
+        const doricModel = newVal as DoricModel;
+        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
+
+        const props = doricModel.nativeViewModel.props as Partial<Switch>;
+        const doricStyle = doricModel.cssStyle;
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
 
         if (props.state) {
@@ -44,6 +47,7 @@ export default Vue.extend({
 
   data() {
     return {
+      id: null,
       cssStyle: null,
 
       checked: false,
