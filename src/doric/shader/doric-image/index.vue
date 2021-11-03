@@ -26,8 +26,16 @@ export default Vue.extend({
     doricModelProps: {
       immediate: true,
       handler(newVal) {
-        const props = (newVal as DoricModel).nativeViewModel
-          .props as Partial<Image>;
+        const doricModel = newVal as DoricModel;
+        const props = doricModel.nativeViewModel.props as Partial<Image>;
+
+        const doricStyle = doricModel.cssStyle;
+        if (doricStyle["width"] === "max-content") {
+          delete doricStyle["width"];
+        }
+        if (doricStyle["height"] === "max-content") {
+          delete doricStyle["height"];
+        }
 
         if (props.imageUrl) {
           this.$set(this.$data, "imageUrl", props.imageUrl);
@@ -76,19 +84,6 @@ export default Vue.extend({
 
   methods: {
     onload(event: any) {
-      const doricStyle = (this.$props.doricModelProps as DoricModel).cssStyle;
-      if (doricStyle["width"] === "max-content") {
-        doricStyle["width"] = `${event.detail.width}px`;
-      }
-      if (doricStyle["height"] === "max-content") {
-        doricStyle["height"] = `${event.detail.height}px`;
-      }
-
-      const cssStyle = Object.entries(doricStyle)
-        .map((e) => `${e[0]}:${e[1]}`)
-        .join(";");
-      this.$set(this.$data, "cssStyle", cssStyle);
-
       let doricModel = this.$props.doricModelProps;
       if ((doricModel.idList, this.$data.loadCallback)) {
         callResponse(
