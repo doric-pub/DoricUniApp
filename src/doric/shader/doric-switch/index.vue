@@ -56,6 +56,27 @@ export default Vue.extend({
   },
 
   methods: {
+    computeSize() {
+      uni
+        .createSelectorQuery()
+        .in(this)
+        .select("#" + this.$data.id)
+        .fields(
+          {
+            size: true,
+            computedStyle: [
+              "margin-left",
+              "margin-right",
+              "margin-top",
+              "margin-bottom",
+            ],
+          },
+          (result) => {
+            console.log(result);
+          }
+        )
+        .exec();
+    },
     onChange(event: any) {
       let doricModel = this.$props.doricModelProps;
       console.log(doricModel);

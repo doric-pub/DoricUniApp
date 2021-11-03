@@ -5,6 +5,7 @@
       v-bind:key="item.nativeViewModel.id"
       :doricModelProps="item"
       :style="childStyles[index]"
+      ref="childNodes"
     />
   </view>
 </template>
@@ -60,6 +61,8 @@ export default Vue.extend({
 
         this.$set(this.$data, "children", children);
         this.$set(this.$data, "childStyles", childStyles);
+
+        this.computeSize();
       },
     },
   },
@@ -75,7 +78,29 @@ export default Vue.extend({
     };
   },
 
-  methods: {},
+  methods: {
+    computeSize() {
+      uni
+        .createSelectorQuery()
+        .in(this)
+        .select("#" + this.$data.id)
+        .fields(
+          {
+            size: true,
+            computedStyle: [
+              "margin-left",
+              "margin-right",
+              "margin-top",
+              "margin-bottom",
+            ],
+          },
+          (result) => {
+            console.log(result);
+          }
+        )
+        .exec();
+    },
+  },
 });
 </script>
 

@@ -115,7 +115,29 @@ export default Vue.extend({
       children: null,
     };
   },
-  methods: {},
+  methods: {
+    computeSize() {
+      uni
+        .createSelectorQuery()
+        .in(this)
+        .select("#" + this.$data.id)
+        .fields(
+          {
+            size: true,
+            computedStyle: [
+              "margin-left",
+              "margin-right",
+              "margin-top",
+              "margin-bottom",
+            ],
+          },
+          (result) => {
+            console.log(result);
+          }
+        )
+        .exec();
+    },
+  },
 });
 </script>
 

@@ -78,7 +78,7 @@ export default Vue.extend({
     return {
       id: null,
       cssStyle: null,
-      
+
       imageUrl: null,
       mode: "scaleToFill",
       loadCallback: null,
@@ -86,6 +86,27 @@ export default Vue.extend({
   },
 
   methods: {
+    computeSize() {
+      uni
+        .createSelectorQuery()
+        .in(this)
+        .select("#" + this.$data.id)
+        .fields(
+          {
+            size: true,
+            computedStyle: [
+              "margin-left",
+              "margin-right",
+              "margin-top",
+              "margin-bottom",
+            ],
+          },
+          (result) => {
+            console.log(result);
+          }
+        )
+        .exec();
+    },
     onload(event: any) {
       let doricModel = this.$props.doricModelProps;
       if ((doricModel.idList, this.$data.loadCallback)) {
