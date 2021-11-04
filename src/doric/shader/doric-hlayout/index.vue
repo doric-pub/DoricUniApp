@@ -118,25 +118,27 @@ export default Vue.extend({
 
   methods: {
     computeSize() {
-      uni
-        .createSelectorQuery()
-        .in(this)
-        .select("#" + this.$data.id)
-        .fields(
-          {
-            size: true,
-            computedStyle: [
-              "margin-left",
-              "margin-right",
-              "margin-top",
-              "margin-bottom",
-            ],
-          },
-          (result) => {
-            console.log(result);
-          }
-        )
-        .exec();
+      return new Promise((resolve, reject) => {
+        uni
+          .createSelectorQuery()
+          .in(this)
+          .select("#" + this.$data.id)
+          .fields(
+            {
+              size: true,
+              computedStyle: [
+                "margin-left",
+                "margin-right",
+                "margin-top",
+                "margin-bottom",
+              ],
+            },
+            (result) => {
+              resolve(result);
+            }
+          )
+          .exec();
+      });
     },
   },
 });
