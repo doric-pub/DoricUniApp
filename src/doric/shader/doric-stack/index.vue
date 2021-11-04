@@ -25,7 +25,7 @@ export default Vue.extend({
   watch: {
     doricModelProps: {
       immediate: true,
-      handler(newVal) {
+      async handler(newVal) {
         const doricModel = newVal as DoricModel;
         this.$set(this.$data, "id", doricModel.nativeViewModel.id);
         this.$set(this.$data, "cssStyle", toCSSStyle(doricModel.cssStyle));
@@ -33,6 +33,22 @@ export default Vue.extend({
         let children = getChildren(doricModel);
 
         let childStyles: Array<String> = [];
+
+        let containsChildWithJustWidth = false;
+        let containsChildWithJustHeight = false;
+        for (let index = 0; index < children.length; index++) {
+          const child = children[index];
+          if (child.nativeViewModel.props.layoutConfig) {
+            let layoutConfig = child.nativeViewModel.props
+              .layoutConfig as LayoutConfig;
+            if (layoutConfig.widthSpec == LayoutSpec.JUST) {
+              containsChildWithJustWidth = true;
+            }
+            if (layoutConfig.heightSpec == LayoutSpec.JUST) {
+              containsChildWithJustHeight = true;
+            }
+          }
+        }
 
         for (let index = 0; index < children.length; index++) {
           const child = children[index];
@@ -44,12 +60,31 @@ export default Vue.extend({
             let layoutConfig = child.nativeViewModel.props
               .layoutConfig as LayoutConfig;
 
-            if (layoutConfig.heightSpec == LayoutSpec.MOST) {
-              childStyle["height"] = "100%";
-            }
-
+            let selfLayoutConfig = doricModel.nativeViewModel.props
+              .layoutConfig as LayoutConfig;
             if (layoutConfig.widthSpec == LayoutSpec.MOST) {
+              if (
+                selfLayoutConfig &&
+                selfLayoutConfig.widthSpec == LayoutSpec.FIT
+              ) {
+                if (containsChildWithJustWidth) {
+                } else {
+                  layoutConfig.widthSpec = LayoutSpec.FIT;
+                }
+              }
               childStyle["width"] = "100%";
+            }
+            if (layoutConfig.heightSpec == LayoutSpec.MOST) {
+              if (
+                selfLayoutConfig &&
+                selfLayoutConfig.heightSpec == LayoutSpec.FIT
+              ) {
+                if (containsChildWithJustHeight) {
+                } else {
+                  layoutConfig.heightSpec = LayoutSpec.FIT;
+                }
+              }
+              childStyle["height"] = "100%";
             }
           }
 
@@ -62,70 +97,20 @@ export default Vue.extend({
         this.$set(this.$data, "children", children);
         this.$set(this.$data, "childStyles", childStyles);
 
-        this.$nextTick(async function () {
-          const layoutConfig = doricModel.nativeViewModel.props
-            .layoutConfig as LayoutConfig;
-
-          let cssStyle = doricModel.cssStyle;
-          if (layoutConfig.widthSpec === LayoutSpec.FIT) {
-            let childNodes = this.$refs.childNodes as any[];
-            if (childNodes) {
-              let maxX = 0;
-
-              let promises = [];
-              for (let index = 0; index < childNodes.length; index++) {
-                const childNode = childNodes[index];
-                promises.push(childNode.$children[0].computeSize());
-              }
-
-              const results = await Promise.all(promises);
-              results.forEach((result) => {
-                let width = result["width"];
-                let marginLeft = parseFloat(
-                  (result["margin-left"] as string).replace("px", "")
-                );
-                let marginRight = parseFloat(
-                  (result["margin-right"] as string).replace("px", "")
-                );
-
-                maxX = Math.max(maxX, width + marginLeft + marginRight);
-              });
-
-              cssStyle["width"] = `${maxX}px`;
+        // handle stack size
+        await this.calculateStackSize();
+        let parent = this.$parent as any;
+        while (parent) {
+          if (parent.doricModelProps) {
+            if (
+              parent.doricModelProps.nativeViewModel.type === "Stack" &&
+              parent.calculateStackSize
+            ) {
+              await parent.calculateStackSize();
             }
           }
-
-          if (layoutConfig.heightSpec === LayoutSpec.FIT) {
-            let childNodes = this.$refs.childNodes as any[];
-            if (childNodes) {
-              let maxY = 0;
-
-              let promises = [];
-              for (let index = 0; index < childNodes.length; index++) {
-                const childNode = childNodes[index];
-                promises.push(childNode.$children[0].computeSize());
-              }
-
-              const results = await Promise.all(promises);
-              results.forEach((result) => {
-                let height = result["height"];
-                let marginTop = parseFloat(
-                  (result["margin-top"] as string).replace("px", "")
-                );
-                let marginBottom = parseFloat(
-                  (result["margin-bottom"] as string).replace("px", "")
-                );
-
-                maxY = Math.max(maxY, height + marginTop + marginBottom);
-              });
-
-              let cssStyle = doricModel.cssStyle;
-              cssStyle["height"] = `${maxY}px`;
-            }
-          }
-
-          this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
-        });
+          parent = parent.$parent;
+        }
       },
     },
   },
@@ -164,6 +149,98 @@ export default Vue.extend({
           )
           .exec();
       });
+    },
+
+    async calculateStackSize() {
+      const doricModel = this.$props.doricModelProps;
+      const selfLayoutConfig = doricModel.nativeViewModel.props
+        .layoutConfig as LayoutConfig;
+      let cssStyle = doricModel.cssStyle;
+      if (selfLayoutConfig) {
+        if (selfLayoutConfig.widthSpec === LayoutSpec.FIT) {
+          let maxX = await this.calculateWidth();
+          cssStyle["width"] = `${maxX}px`;
+        }
+
+        if (selfLayoutConfig.heightSpec === LayoutSpec.FIT) {
+          let maxY = await this.calculateHeight();
+          cssStyle["height"] = `${maxY}px`;
+        }
+      }
+
+      const parentLayoutConfig = (<any>this.$parent.$parent).doricModelProps
+        .nativeViewModel.props.layoutConfig as LayoutConfig;
+
+      if (parentLayoutConfig && selfLayoutConfig) {
+        if (
+          selfLayoutConfig.widthSpec == LayoutSpec.MOST &&
+          parentLayoutConfig.widthSpec == LayoutSpec.FIT
+        ) {
+          let maxX = await this.calculateWidth();
+          cssStyle["width"] = `${maxX}px`;
+        }
+        if (
+          selfLayoutConfig.heightSpec == LayoutSpec.MOST &&
+          parentLayoutConfig.heightSpec == LayoutSpec.FIT
+        ) {
+          let maxY = await this.calculateHeight();
+          cssStyle["height"] = `${maxY}px`;
+        }
+      }
+
+      this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
+    },
+
+    async calculateWidth() {
+      let childNodes = this.$refs.childNodes as any[];
+      let maxX = 0;
+      if (childNodes) {
+        let promises = [];
+        for (let index = 0; index < childNodes.length; index++) {
+          const childNode = childNodes[index];
+          promises.push(childNode.$children[0].computeSize());
+        }
+
+        const results = await Promise.all(promises);
+        results.forEach((result) => {
+          let width = result["width"];
+          let marginLeft = parseFloat(
+            (result["margin-left"] as string).replace("px", "")
+          );
+          let marginRight = parseFloat(
+            (result["margin-right"] as string).replace("px", "")
+          );
+
+          maxX = Math.max(maxX, width + marginLeft + marginRight);
+        });
+      }
+      return maxX;
+    },
+
+    async calculateHeight() {
+      let childNodes = this.$refs.childNodes as any[];
+      let maxY = 0;
+      if (childNodes) {
+        let promises = [];
+        for (let index = 0; index < childNodes.length; index++) {
+          const childNode = childNodes[index];
+          promises.push(childNode.$children[0].computeSize());
+        }
+
+        const results = await Promise.all(promises);
+        results.forEach((result) => {
+          let height = result["height"];
+          let marginTop = parseFloat(
+            (result["margin-top"] as string).replace("px", "")
+          );
+          let marginBottom = parseFloat(
+            (result["margin-bottom"] as string).replace("px", "")
+          );
+
+          maxY = Math.max(maxY, height + marginTop + marginBottom);
+        });
+      }
+      return maxY;
     },
   },
 });

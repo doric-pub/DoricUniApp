@@ -67,6 +67,22 @@ export default Vue.extend({
 
         let childStyles: Array<String> = [];
 
+        let containsChildWithJustWidth = false;
+        let containsChildWithJustHeight = false;
+        for (let index = 0; index < children.length; index++) {
+          const child = children[index];
+          if (child.nativeViewModel.props.layoutConfig) {
+            let layoutConfig = child.nativeViewModel.props
+              .layoutConfig as LayoutConfig;
+            if (layoutConfig.widthSpec == LayoutSpec.JUST) {
+              containsChildWithJustWidth = true;
+            }
+            if (layoutConfig.heightSpec == LayoutSpec.JUST) {
+              containsChildWithJustHeight = true;
+            }
+          }
+        }
+
         for (let index = 0; index < children.length; index++) {
           const child = children[index];
           let childStyle: Record<string, string> = {};
@@ -76,10 +92,30 @@ export default Vue.extend({
             let layoutConfig = child.nativeViewModel.props
               .layoutConfig as LayoutConfig;
 
+            let selfLayoutConfig = doricModel.nativeViewModel.props
+              .layoutConfig as LayoutConfig;
             if (layoutConfig.widthSpec == LayoutSpec.MOST) {
+              if (
+                selfLayoutConfig &&
+                selfLayoutConfig.widthSpec == LayoutSpec.FIT
+              ) {
+                if (containsChildWithJustWidth) {
+                } else {
+                  layoutConfig.widthSpec = LayoutSpec.FIT;
+                }
+              }
               childStyle["width"] = "100%";
             }
             if (layoutConfig.heightSpec == LayoutSpec.MOST) {
+              if (
+                selfLayoutConfig &&
+                selfLayoutConfig.heightSpec == LayoutSpec.FIT
+              ) {
+                if (containsChildWithJustHeight) {
+                } else {
+                  layoutConfig.heightSpec = LayoutSpec.FIT;
+                }
+              }
               childStyle["height"] = "100%";
             }
 
