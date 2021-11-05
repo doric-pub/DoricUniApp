@@ -103,8 +103,9 @@ export default Vue.extend({
                 } else {
                   layoutConfig.widthSpec = LayoutSpec.FIT;
                 }
+              } else {
+                childStyle["width"] = "100%";
               }
-              childStyle["width"] = "100%";
             }
             if (layoutConfig.heightSpec == LayoutSpec.MOST) {
               if (
@@ -115,8 +116,9 @@ export default Vue.extend({
                 } else {
                   layoutConfig.heightSpec = LayoutSpec.FIT;
                 }
+              } else {
+                childStyle["height"] = "100%";
               }
-              childStyle["height"] = "100%";
             }
 
             if (layoutConfig.weight) {
