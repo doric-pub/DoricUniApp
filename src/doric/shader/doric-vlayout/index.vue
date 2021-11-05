@@ -166,6 +166,10 @@ export default Vue.extend({
                 "margin-right",
                 "margin-top",
                 "margin-bottom",
+                "padding-left",
+                "padding-right",
+                "padding-top",
+                "padding-bottom",
               ],
             },
             (result) => {

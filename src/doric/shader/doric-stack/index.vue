@@ -141,6 +141,10 @@ export default Vue.extend({
                 "margin-right",
                 "margin-top",
                 "margin-bottom",
+                "padding-left",
+                "padding-right",
+                "padding-top",
+                "padding-bottom",
               ],
             },
             (result) => {
@@ -172,19 +176,84 @@ export default Vue.extend({
         .nativeViewModel.props.layoutConfig as LayoutConfig;
 
       if (parentLayoutConfig && selfLayoutConfig) {
+        let parentType = (<any>this.$parent.$parent).doricModelProps
+          .nativeViewModel.type;
         if (
           selfLayoutConfig.widthSpec == LayoutSpec.MOST &&
           parentLayoutConfig.widthSpec == LayoutSpec.FIT
         ) {
-          let maxX = await this.calculateWidth();
-          cssStyle["width"] = `${maxX}px`;
+          if (parentType === "VLayout") {
+            let result = await (<any>this.$parent.$parent).computeSize();
+            let allowedWidth =
+              result.width -
+              parseFloat((result["padding-left"] as string).replace("px", "")) -
+              parseFloat(
+                (result["padding-right"] as string).replace("px", "")
+              ) -
+              (cssStyle["margin-left"]
+                ? parseFloat(
+                    (cssStyle["margin-left"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["margin-right"]
+                ? parseFloat(
+                    (cssStyle["margin-right"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["padding-left"]
+                ? parseFloat(
+                    (cssStyle["padding-left"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["padding-right"]
+                ? parseFloat(
+                    (cssStyle["padding-right"] as string).replace("px", "")
+                  )
+                : 0);
+            cssStyle["width"] = `${allowedWidth}px`;
+          } else {
+            let maxX = await this.calculateWidth();
+            cssStyle["width"] = `${maxX}px`;
+          }
         }
         if (
           selfLayoutConfig.heightSpec == LayoutSpec.MOST &&
           parentLayoutConfig.heightSpec == LayoutSpec.FIT
         ) {
-          let maxY = await this.calculateHeight();
-          cssStyle["height"] = `${maxY}px`;
+          if (parentType === "HLayout") {
+            let result = await (<any>this.$parent.$parent).computeSize();
+            let allowedHeight =
+              result.height -
+              parseFloat((result["padding-top"] as string).replace("px", "")) -
+              parseFloat(
+                (result["padding-bottom"] as string).replace("px", "")
+              ) -
+              (cssStyle["margin-top"]
+                ? parseFloat(
+                    (cssStyle["margin-top"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["margin-bottom"]
+                ? parseFloat(
+                    (cssStyle["margin-bottom"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["padding-top"]
+                ? parseFloat(
+                    (cssStyle["padding-top"] as string).replace("px", "")
+                  )
+                : 0) -
+              (cssStyle["padding-bottom"]
+                ? parseFloat(
+                    (cssStyle["padding-bottom"] as string).replace("px", "")
+                  )
+                : 0);
+            cssStyle["height"] = `${allowedHeight}px`;
+            console.log(allowedHeight);
+          } else {
+            let maxY = await this.calculateHeight();
+            cssStyle["height"] = `${maxY}px`;
+          }
         }
       }
 
