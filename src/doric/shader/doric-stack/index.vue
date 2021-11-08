@@ -182,8 +182,21 @@ export default Vue.extend({
           selfLayoutConfig.widthSpec == LayoutSpec.MOST &&
           parentLayoutConfig.widthSpec == LayoutSpec.FIT
         ) {
-          if (parentType === "VLayout") {
+          if (parentType === "VLayout" || parentType === "Stack") {
             let result = await (<any>this.$parent.$parent).computeSize();
+            if (parentType === "Stack") {
+              let childNodes = (<any>(
+                this.$parent.$parent.$refs.childNodes
+              )) as any[];
+              if (childNodes) {
+                for (let index = 0; index < childNodes.length; index++) {
+                  const childNode = childNodes[index].$children[0];
+                  await childNode.computeSize();
+                }
+              }
+              result = await (<any>this.$parent.$parent).computeSize();
+            }
+
             let allowedWidth =
               result.width -
               parseFloat((result["padding-left"] as string).replace("px", "")) -
@@ -220,8 +233,21 @@ export default Vue.extend({
           selfLayoutConfig.heightSpec == LayoutSpec.MOST &&
           parentLayoutConfig.heightSpec == LayoutSpec.FIT
         ) {
-          if (parentType === "HLayout") {
+          if (parentType === "HLayout" || parentType === "Stack") {
             let result = await (<any>this.$parent.$parent).computeSize();
+            if (parentType === "Stack") {
+              let childNodes = (<any>(
+                this.$parent.$parent.$refs.childNodes
+              )) as any[];
+              if (childNodes) {
+                for (let index = 0; index < childNodes.length; index++) {
+                  const childNode = childNodes[index].$children[0];
+                  await childNode.computeSize();
+                }
+              }
+              result = await (<any>this.$parent.$parent).computeSize();
+            }
+
             let allowedHeight =
               result.height -
               parseFloat((result["padding-top"] as string).replace("px", "")) -
@@ -249,7 +275,6 @@ export default Vue.extend({
                   )
                 : 0);
             cssStyle["height"] = `${allowedHeight}px`;
-            console.log(allowedHeight);
           } else {
             let maxY = await this.calculateHeight();
             cssStyle["height"] = `${maxY}px`;
