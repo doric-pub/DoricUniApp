@@ -11,6 +11,7 @@
     <text class="cell" @click="click('ModalDemo')">ModalDemo</text>
     <text class="cell" @click="click('Snake')">Snake</text>
     <text class="cell" @click="click('SwitchDemo')">SwitchDemo</text>
+    <text class="cell" @click="click('TextDemo')">TextDemo</text>
   </view>
 </template>
 

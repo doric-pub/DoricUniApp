@@ -38,6 +38,7 @@ import { LayoutTest } from "../../demo/LayoutTestDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
 import { SnakePanel } from "../../demo/Snake";
 import { SwitchDemo } from "../../demo/SwitchDemo";
+import { TextDemo } from "../../demo/TextDemo";
 
 let global = new Function("return this")();
 global.Environment = {
@@ -79,6 +80,8 @@ export default Vue.extend({
       classType = SnakePanel;
     } else if (name == "SwitchDemo") {
       classType = SwitchDemo;
+    } else if (name == "TextDemo") {
+      classType = TextDemo;
     }
     const context = createContext(contextId, classType!!);
 
