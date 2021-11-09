@@ -30,6 +30,7 @@ import { Modal } from "../../doric/plugin/modal";
 import { Popover } from "../../doric/plugin/popover";
 
 import { ComponentDemo } from "../../demo/ComponentDemo";
+import { CounterPage } from "../../demo/Counter";
 import { EffectsDemo } from "../../demo/EffectsDemo";
 import { Gobang } from "../../demo/Gobang";
 import { HelloDoric } from "../../demo/HelloDoric";
@@ -38,6 +39,7 @@ import { InputDemo } from "../../demo/InputDemo";
 import { LayoutDemo } from "../../demo/LayoutDemo";
 import { LayoutTest } from "../../demo/LayoutTestDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
+import { ModularDemo } from "../../demo/ModularDemo";
 import { SnakePanel } from "../../demo/Snake";
 import { SwitchDemo } from "../../demo/SwitchDemo";
 import { TextDemo } from "../../demo/TextDemo";
@@ -62,6 +64,8 @@ export default Vue.extend({
     let classType: ClassType<Panel>;
     if (name == "ComponentDemo") {
       classType = ComponentDemo;
+    } else if (name == "Counter") {
+      classType = CounterPage;
     } else if (name == "EffectsDemo") {
       classType = EffectsDemo;
     } else if (name == "Gobang") {
@@ -78,6 +82,8 @@ export default Vue.extend({
       classType = LayoutTest;
     } else if (name == "ModalDemo") {
       classType = ModalDemo;
+    } else if (name == "ModularDemo") {
+      classType = ModularDemo;
     } else if (name == "Snake") {
       classType = SnakePanel;
     } else if (name == "SwitchDemo") {
