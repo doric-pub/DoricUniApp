@@ -377,7 +377,7 @@ export default Vue.extend({
     async getX() {
       if (this.$children && (this.$children as any[]).length > 0) {
         let result = await (this.$children as any[])[0].computeSize();
-        return result.left;
+        return parseFloat(result["margin-left"].replace("px", ""));
       } else {
         return 0;
       }
@@ -386,7 +386,7 @@ export default Vue.extend({
     async getY() {
       if (this.$children && (this.$children as any[]).length > 0) {
         let result = await (this.$children as any[])[0].computeSize();
-        return result.top;
+        return parseFloat(result["margin-top"].replace("px", ""));
       } else {
         return 0;
       }
