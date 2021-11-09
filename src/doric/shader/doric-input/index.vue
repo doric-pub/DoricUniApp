@@ -175,6 +175,10 @@ export default Vue.extend({
           this.$set(this.$data, "onSubmitEditing", props.onSubmitEditing);
         }
 
+        if (props.beforeTextChange) {
+          this.$set(this.$data, "beforeTextChange", props.beforeTextChange);
+        }
+
         this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
         this.$set(this.$data, "placeholderStyle", toCSSStyle(placeholderStyle));
       },
@@ -199,6 +203,7 @@ export default Vue.extend({
       onTextChange: null,
       onFocusChange: null,
       onSubmitEditing: null,
+      beforeTextChange: null,
     };
   },
 
