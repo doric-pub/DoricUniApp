@@ -1,13 +1,13 @@
 <template>
   <div :id="id" class="doric-text" :style="cssStyle">
-    <span v-if="text != null">{{ text }}</span>
+    <span v-if="text != null" :style="innerStyle">{{ text }}</span>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
-import { Text } from "doric";
+import { GradientColor, GradientOrientation, Text } from "doric";
 
 import {
   LEFT,
@@ -40,10 +40,83 @@ export default Vue.extend({
         if (props.textSize) {
           doricStyle["font-size"] = toPixelString(props.textSize);
         }
+
+        let innerStyle = {} as any;
         if (props.textColor) {
-          doricStyle["color"] = toRGBAString(
-            props.textColor as unknown as number
-          );
+          if (typeof props.textColor === "number") {
+            doricStyle["color"] = toRGBAString(
+              props.textColor as unknown as number
+            );
+          } else if (typeof props.textColor === "object") {
+            innerStyle["-webkit-background-clip"] = "text";
+            innerStyle["color"] = "transparent";
+
+            let gradient = props.textColor as GradientColor;
+
+            let deg = "";
+            switch (gradient.orientation) {
+              case GradientOrientation.TOP_BOTTOM:
+                deg = "180deg";
+                break;
+              case GradientOrientation.TR_BL:
+                deg = "-135deg";
+                break;
+              case GradientOrientation.RIGHT_LEFT:
+                deg = "-90deg";
+                break;
+              case GradientOrientation.BR_TL:
+                deg = "-45deg";
+                break;
+              case GradientOrientation.BOTTOM_TOP:
+                deg = "0deg";
+                break;
+              case GradientOrientation.BL_TR:
+                deg = "45deg";
+                break;
+              case GradientOrientation.LEFT_RIGHT:
+                deg = "90deg";
+                break;
+              case GradientOrientation.TL_BR:
+                deg = "135deg";
+                break;
+            }
+
+            if (gradient.start && gradient.end) {
+              innerStyle[
+                "background-image"
+              ] = `linear-gradient(${deg}, ${toRGBAString(
+                gradient.start as unknown as number
+              )}, ${toRGBAString(gradient.end as unknown as number)});`;
+            } else {
+              if (gradient.locations) {
+                if (gradient.colors) {
+                  const colors = gradient.colors
+                    .map(
+                      (e, index) =>
+                        `${toRGBAString(e as unknown as number)} ${
+                          (
+                            (gradient.locations!![index] as unknown as number) *
+                            100
+                          ).toFixed(2) + "%"
+                        }`
+                    )
+                    .join(",");
+                  innerStyle[
+                    "background-image"
+                  ] = `linear-gradient(${deg}, ${colors});`;
+                }
+              } else {
+                if (gradient.colors) {
+                  const colors = gradient.colors
+                    .map((e) => `${toRGBAString(e as unknown as number)}`)
+                    .join(",");
+                  innerStyle[
+                    "background-image"
+                  ] = `linear-gradient(${deg}, ${colors});`;
+                }
+              }
+            }
+          }
         }
         if (props.textAlignment) {
           const gravity = props.textAlignment as unknown as number;
@@ -63,6 +136,7 @@ export default Vue.extend({
           }
         }
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
+        this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
         this.$set(this.$data, "text", props.text);
       },
     },
@@ -74,6 +148,7 @@ export default Vue.extend({
       cssStyle: null,
 
       text: null,
+      innerStyle: null,
     };
   },
 
