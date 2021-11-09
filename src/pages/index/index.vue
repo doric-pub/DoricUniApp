@@ -1,13 +1,14 @@
 <template>
   <view class="doric-container">
     <view class="doric-node-container">
-      <DoricNode :doricModelProps="doricModel"></DoricNode>
+      <DoricNode :doricModelProps="doricModel" ref="doricContainer"></DoricNode>
     </view>
     <view v-if="popoverDoricModels.length != 0" class="doric-popover-container">
       <DoricNode
         v-for="item in popoverDoricModels"
         v-bind:key="item.nativeViewModel.id"
         :doricModelProps="item"
+        ref="doricPopoverContainers"
       />
     </view>
   </view>
@@ -22,8 +23,9 @@ import {
   createContext,
   destroyContext,
 } from "../../doric/context";
-import { DoricModel } from "../../doric/utils";
+import { DoricModel, Queue } from "../../doric/utils";
 
+import { Shader } from "../../doric/plugin/shader";
 import { Modal } from "../../doric/plugin/modal";
 import { Popover } from "../../doric/plugin/popover";
 
@@ -89,6 +91,7 @@ export default Vue.extend({
 
     global.context = context;
 
+    //#region Plugins
     context.plugins.set("modal", new Modal(context));
 
     const popover = new Popover(context);
@@ -97,6 +100,73 @@ export default Vue.extend({
       self.$set(self.$data, "popoverDoricModels", popoverDoricModels);
     };
     context.plugins.set("popover", popover);
+
+    const shader = new Shader(context);
+    shader.targetView = (value: {
+      viewIds: Array<string>;
+      name: string;
+      args: any[];
+    }) => {
+      let queue = new Queue();
+      for (let index = 0; index < value.viewIds.length; index++) {
+        const viewId = value.viewIds[index];
+        queue.enqueue(viewId);
+      }
+
+      let tempNode;
+      const doricContainer = this.$refs.doricContainer as any;
+      if (doricContainer) {
+        if (
+          queue.peek() === doricContainer.doricModelProps.nativeViewModel.id
+        ) {
+          tempNode = doricContainer;
+          queue.dequeue();
+        }
+      }
+
+      const doricPopoverContainers = this.$refs.doricPopoverContainers as any[];
+      if (doricPopoverContainers) {
+        for (let index = 0; index < doricPopoverContainers.length; index++) {
+          const doricPopoverContainer = doricPopoverContainers[index];
+
+          if (
+            queue.peek() ===
+            doricPopoverContainer.doricModelProps.nativeViewModel.id
+          ) {
+            tempNode = doricPopoverContainer;
+            continue;
+          }
+        }
+      }
+
+      if (tempNode) {
+        while (queue.length > 0) {
+          let children = tempNode.$children[0].$children as any[];
+          if (children) {
+            let find = false;
+            for (let index = 0; index < children.length; index++) {
+              const child = children[index];
+              if (queue.peek() === child.doricModelProps.nativeViewModel.id) {
+                tempNode = child;
+                queue.dequeue();
+                find = true;
+              }
+            }
+            if (!find) {
+              console.error(`Cannot find target view ${queue.peek()}`);
+            }
+          } else {
+            console.error(`Cannot find target view ${queue.peek()}`);
+            break;
+          }
+        }
+      }
+
+      return tempNode.$children[0];
+    };
+    context.plugins.set("shader", shader);
+
+    //#endregion
 
     context.hookAfter = () => {
       console.log("hookAfter", panel.getRootView().toModel());

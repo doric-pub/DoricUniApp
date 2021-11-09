@@ -73,6 +73,7 @@ export default Vue.extend({
 
         if (props.text) {
           this.$set(this.$data, "text", props.text);
+          this.$set(this.$data, "currentText", props.text);
         }
 
         if (props.textColor) {
@@ -189,6 +190,7 @@ export default Vue.extend({
       id: null,
       cssStyle: null,
       autoHeight: false,
+      currentText: "",
 
       text: "",
       hintText: "",
@@ -242,6 +244,7 @@ export default Vue.extend({
           event.detail.value
         );
       }
+      this.$set(this.$data, "currentText", event.detail.value);
     },
 
     onFocus() {
@@ -278,6 +281,10 @@ export default Vue.extend({
           event.detail.value
         );
       }
+    },
+
+    getText() {
+      return this.$data.currentText;
     },
   },
 });
