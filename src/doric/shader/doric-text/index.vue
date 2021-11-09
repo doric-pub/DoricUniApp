@@ -156,6 +156,21 @@ export default Vue.extend({
           }
         }
 
+        if (props.lineSpacing) {
+          innerStyle["line-height"] = `${props.lineSpacing}px`;
+        }
+
+        let decoration = [];
+        if (props.strikethrough) {
+          decoration.push("line-through");
+        }
+
+        if (props.underline) {
+          decoration.push("underline");
+        }
+
+        innerStyle["text-decoration"] = decoration.map((e) => `${e}`).join(" ");
+
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
         this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
         this.$set(this.$data, "text", props.text);
