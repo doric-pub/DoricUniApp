@@ -22,7 +22,7 @@
     :id="id"
     class="doric-input"
     :style="cssStyle"
-    auto-height="true"
+    :auto-height="autoHeight"
     :value="text"
     :placeholder="hintText"
     :placeholder-style="placeholderStyle"
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { callResponse } from "@/doric/context";
-import { Input, InputType, ReturnKeyType } from "doric";
+import { Input, InputType, LayoutSpec, ReturnKeyType } from "doric";
 import Vue from "vue";
 
 import {
@@ -64,6 +64,12 @@ export default Vue.extend({
         const cssStyle = doricModel.cssStyle;
         const placeholderStyle = {} as any;
         const props = doricModel.nativeViewModel.props as Partial<Input>;
+
+        if (props.layoutConfig) {
+          if (props.layoutConfig.heightSpec === LayoutSpec.FIT) {
+            this.$set(this.$data, "autoHeight", true);
+          }
+        }
 
         if (props.text) {
           this.$set(this.$data, "text", props.text);
@@ -178,6 +184,7 @@ export default Vue.extend({
     return {
       id: null,
       cssStyle: null,
+      autoHeight: false,
 
       text: "",
       hintText: "",
