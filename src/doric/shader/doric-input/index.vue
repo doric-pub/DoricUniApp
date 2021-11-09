@@ -10,6 +10,7 @@
     :type="type"
     :maxlength="maxLength"
     :password="password"
+    :disabled="disabled"
     :confirm-type="confirmType"
     @input="onInput"
     @focus="onFocus"
@@ -27,6 +28,7 @@
     :placeholder-style="placeholderStyle"
     :type="type"
     :maxlength="maxLength"
+    :disabled="disabled"
     :confirm-type="confirmType"
     @input="onInput"
     @focus="onFocus"
@@ -118,6 +120,14 @@ export default Vue.extend({
           this.$set(this.$data, "password", false);
         }
 
+        if (props.editable !== undefined) {
+          if (props.editable) {
+            this.$set(this.$data, "disabled", false);
+          } else {
+            this.$set(this.$data, "disabled", true);
+          }
+        }
+
         if (props.returnKeyType) {
           switch (props.returnKeyType as number) {
             case ReturnKeyType.Default:
@@ -174,6 +184,7 @@ export default Vue.extend({
       placeholderStyle: "",
       type: "text",
       password: false,
+      disabled: false,
       confirmType: "",
       maxLength: 140,
       multiline: true,
