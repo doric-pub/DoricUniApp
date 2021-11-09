@@ -1,46 +1,44 @@
 <template>
-  <input
-    v-if="!multiline"
-    :id="id"
-    class="doric-input"
-    :style="cssStyle"
-    :value="text"
-    :placeholder="hintText"
-    :placeholder-style="placeholderStyle"
-    :type="type"
-    :maxlength="maxLength"
-    :password="password"
-    :disabled="disabled"
-    :confirm-type="confirmType"
-    @input="onInput"
-    @focus="onFocus"
-    @blur="onBlur"
-    @confirm="onConfirm"
-    :focus="focus"
-    :selection-start="selectionStart"
-    :selection-end="selectionEnd"
-  />
-  <textarea
-    v-else
-    :id="id"
-    class="doric-input"
-    :style="cssStyle"
-    :auto-height="autoHeight"
-    :value="text"
-    :placeholder="hintText"
-    :placeholder-style="placeholderStyle"
-    :type="type"
-    :maxlength="maxLength"
-    :disabled="disabled"
-    :confirm-type="confirmType"
-    @input="onInput"
-    @focus="onFocus"
-    @blur="onBlur"
-    @confirm="onConfirm"
-    :focus="focus"
-    :selection-start="selectionStart"
-    :selection-end="selectionEnd"
-  />
+  <div :id="id" class="doric-input" :style="cssStyle">
+    <input
+      v-if="!multiline"
+      :style="innerStyle"
+      :value="text"
+      :placeholder="hintText"
+      :placeholder-style="placeholderStyle"
+      :type="type"
+      :maxlength="maxLength"
+      :password="password"
+      :disabled="disabled"
+      :confirm-type="confirmType"
+      @input="onInput"
+      @focus="onFocus"
+      @blur="onBlur"
+      @confirm="onConfirm"
+      :focus="focus"
+      :selection-start="selectionStart"
+      :selection-end="selectionEnd"
+    />
+    <textarea
+      v-else
+      :style="innerStyle"
+      :auto-height="autoHeight"
+      :value="text"
+      :placeholder="hintText"
+      :placeholder-style="placeholderStyle"
+      :type="type"
+      :maxlength="maxLength"
+      :disabled="disabled"
+      :confirm-type="confirmType"
+      @input="onInput"
+      @focus="onFocus"
+      @blur="onBlur"
+      @confirm="onConfirm"
+      :focus="focus"
+      :selection-start="selectionStart"
+      :selection-end="selectionEnd"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -53,6 +51,12 @@ import {
   toCSSStyle,
   toPixelString,
   toRGBAString,
+  LEFT,
+  RIGHT,
+  TOP,
+  BOTTOM,
+  CENTER_X,
+  CENTER_Y,
 } from "../../../doric/utils";
 
 export default Vue.extend({
@@ -67,15 +71,13 @@ export default Vue.extend({
       handler(newVal) {
         const doricModel = newVal as DoricModel;
         this.$set(this.$data, "id", doricModel.nativeViewModel.id);
-        const cssStyle = doricModel.cssStyle;
+        const doricStyle = doricModel.cssStyle;
+        const innerStyle = {} as any;
         const placeholderStyle = {} as any;
         const props = doricModel.nativeViewModel.props as Partial<Input>;
 
-        if (props.layoutConfig) {
-          if (props.layoutConfig.heightSpec === LayoutSpec.FIT) {
-            this.$set(this.$data, "autoHeight", true);
-          }
-        }
+        this.$set(this.$data, "autoHeight", true);
+        doricStyle["overflow"] = "scroll";
 
         if (props.text) {
           this.$set(this.$data, "text", props.text);
@@ -83,13 +85,13 @@ export default Vue.extend({
         }
 
         if (props.textColor) {
-          cssStyle["color"] = toRGBAString(
+          innerStyle["color"] = toRGBAString(
             props.textColor as unknown as number
           );
         }
 
         if (props.textSize) {
-          cssStyle["font-size"] = toPixelString(props.textSize);
+          innerStyle["font-size"] = toPixelString(props.textSize);
         }
 
         if (props.hintText) {
@@ -170,6 +172,24 @@ export default Vue.extend({
           this.$set(this.$data, "multiline", false);
         }
 
+        if (props.textAlignment) {
+          const gravity = props.textAlignment as unknown as number;
+          if ((gravity & LEFT) === LEFT) {
+            doricStyle["justify-content"] = "flex-start";
+          } else if ((gravity & RIGHT) === RIGHT) {
+            doricStyle["justify-content"] = "flex-end";
+          } else if ((gravity & CENTER_X) === CENTER_X) {
+            doricStyle["justify-content"] = "center";
+          }
+          if ((gravity & TOP) === TOP) {
+            doricStyle["align-items"] = "flex-start";
+          } else if ((gravity & BOTTOM) === BOTTOM) {
+            doricStyle["align-items"] = "flex-end";
+          } else if ((gravity & CENTER_Y) === CENTER_Y) {
+            doricStyle["align-items"] = "center";
+          }
+        }
+
         if (props.onTextChange) {
           this.$set(this.$data, "onTextChange", props.onTextChange);
         }
@@ -186,7 +206,8 @@ export default Vue.extend({
           this.$set(this.$data, "beforeTextChange", props.beforeTextChange);
         }
 
-        this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
+        this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
+        this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
         this.$set(this.$data, "placeholderStyle", toCSSStyle(placeholderStyle));
       },
     },
@@ -200,6 +221,7 @@ export default Vue.extend({
 
       text: "",
       hintText: "",
+      innerStyle: null,
       placeholderStyle: "",
       type: "text",
       password: false,
