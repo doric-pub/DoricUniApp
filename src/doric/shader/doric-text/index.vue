@@ -135,6 +135,12 @@ export default Vue.extend({
             doricStyle["align-items"] = "center";
           }
         }
+
+        if (Object.keys(doricStyle).includes("box-shadow")) {
+          let shadow = doricStyle["box-shadow"];
+          innerStyle["text-shadow"] = shadow;
+          delete doricStyle["box-shadow"];
+        }
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
         this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
         this.$set(this.$data, "text", props.text);
