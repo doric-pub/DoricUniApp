@@ -16,6 +16,9 @@
     @focus="onFocus"
     @blur="onBlur"
     @confirm="onConfirm"
+    :focus="focus"
+    :selection-start="selectionStart"
+    :selection-end="selectionEnd"
   />
   <textarea
     v-else
@@ -34,6 +37,9 @@
     @focus="onFocus"
     @blur="onBlur"
     @confirm="onConfirm"
+    :focus="focus"
+    :selection-start="selectionStart"
+    :selection-end="selectionEnd"
   />
 </template>
 
@@ -206,6 +212,10 @@ export default Vue.extend({
       onFocusChange: null,
       onSubmitEditing: null,
       beforeTextChange: null,
+
+      focus: false,
+      selectionStart: -1,
+      selectionEnd: -1,
     };
   },
 
@@ -285,6 +295,19 @@ export default Vue.extend({
 
     getText() {
       return this.$data.currentText;
+    },
+
+    setSelection(args: { start: number; end: number }) {
+      this.$set(this.$data, "selectionStart", args.start);
+      this.$set(this.$data, "selectionEnd", args.end);
+    },
+
+    requestFocus() {
+      this.$set(this.$data, "focus", true);
+    },
+
+    releaseFocus() {
+      this.$set(this.$data, "focus", false);
     },
   },
 });

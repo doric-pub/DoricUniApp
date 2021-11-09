@@ -13,10 +13,9 @@ export class Shader extends DoricPlugin {
   ) {
     if (this.targetView) {
       const view = this.targetView(value);
-      console.log(view);
 
       let func = Reflect.get(view, value.name);
-      let result = Reflect.apply(func, view, value.args ? value.args : []);
+      let result = Reflect.apply(func, view, value.args ? [value.args] : []);
       callResolve(this.context.id, callbackId, result);
     }
   }
