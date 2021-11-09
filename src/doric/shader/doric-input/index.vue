@@ -10,9 +10,11 @@
     :type="type"
     :maxlength="maxLength"
     :password="password"
+    :confirm-type="confirmType"
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
+    @confirm="onConfirm"
   />
   <textarea
     v-else
@@ -25,15 +27,17 @@
     :placeholder-style="placeholderStyle"
     :type="type"
     :maxlength="maxLength"
+    :confirm-type="confirmType"
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
+    @confirm="onConfirm"
   />
 </template>
 
 <script lang="ts">
 import { callResponse } from "@/doric/context";
-import { Input, InputType } from "doric";
+import { Input, InputType, ReturnKeyType } from "doric";
 import Vue from "vue";
 
 import {
@@ -114,6 +118,29 @@ export default Vue.extend({
           this.$set(this.$data, "password", false);
         }
 
+        if (props.returnKeyType) {
+          switch (props.returnKeyType as number) {
+            case ReturnKeyType.Default:
+              this.$set(this.$data, "confirmType", "");
+              break;
+            case ReturnKeyType.Done:
+              this.$set(this.$data, "confirmType", "done");
+              break;
+            case ReturnKeyType.Search:
+              this.$set(this.$data, "confirmType", "search");
+              break;
+            case ReturnKeyType.Next:
+              this.$set(this.$data, "confirmType", "next");
+              break;
+            case ReturnKeyType.Go:
+              this.$set(this.$data, "confirmType", "go");
+              break;
+            case ReturnKeyType.Send:
+              this.$set(this.$data, "confirmType", "send");
+              break;
+          }
+        }
+
         if (props.multiline) {
           this.$set(this.$data, "multiline", true);
         } else {
@@ -126,6 +153,10 @@ export default Vue.extend({
 
         if (props.onFocusChange) {
           this.$set(this.$data, "onFocusChange", props.onFocusChange);
+        }
+
+        if (props.onSubmitEditing) {
+          this.$set(this.$data, "onSubmitEditing", props.onSubmitEditing);
         }
 
         this.$set(this.$data, "cssStyle", toCSSStyle(cssStyle));
@@ -143,11 +174,13 @@ export default Vue.extend({
       placeholderStyle: "",
       type: "text",
       password: false,
+      confirmType: "",
       maxLength: 140,
       multiline: true,
 
       onTextChange: null,
       onFocusChange: null,
+      onSubmitEditing: null,
     };
   },
 
@@ -208,6 +241,18 @@ export default Vue.extend({
           doricModel.idList,
           this.$data.onFocusChange,
           false
+        );
+      }
+    },
+
+    onConfirm(event: any) {
+      let doricModel = this.$props.doricModelProps;
+      if ((doricModel.idList, this.$data.onSubmitEditing)) {
+        callResponse(
+          doricModel.contextId,
+          doricModel.idList,
+          this.$data.onSubmitEditing,
+          event.detail.value
         );
       }
     },
