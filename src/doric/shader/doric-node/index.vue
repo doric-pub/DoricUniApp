@@ -355,6 +355,54 @@ export default Vue.extend({
         );
       }
     },
+
+    async getWidth() {
+      if (this.$children && (this.$children as any[]).length > 0) {
+        let result = await (this.$children as any[])[0].computeSize();
+        return result.width;
+      } else {
+        return 0;
+      }
+    },
+
+    async getHeight() {
+      if (this.$children && (this.$children as any[]).length > 0) {
+        let result = await (this.$children as any[])[0].computeSize();
+        return result.height;
+      } else {
+        return 0;
+      }
+    },
+
+    async getX() {
+      if (this.$children && (this.$children as any[]).length > 0) {
+        let result = await (this.$children as any[])[0].computeSize();
+        return result.left;
+      } else {
+        return 0;
+      }
+    },
+
+    async getY() {
+      if (this.$children && (this.$children as any[]).length > 0) {
+        let result = await (this.$children as any[])[0].computeSize();
+        return result.top;
+      } else {
+        return 0;
+      }
+    },
+
+    async getLocationOnScreen() {
+      if (this.$children && (this.$children as any[]).length > 0) {
+        let result = await (this.$children as any[])[0].computeSize();
+        return {
+          x: result.left,
+          y: result.top,
+        };
+      } else {
+        return 0;
+      }
+    },
   },
   components: {
     DoricText,

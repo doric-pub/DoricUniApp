@@ -106,7 +106,6 @@ export default Vue.extend({
               } else {
                 childStyle["width"] = "100%";
               }
-              
             }
             if (layoutConfig.heightSpec == LayoutSpec.MOST) {
               if (
@@ -117,7 +116,8 @@ export default Vue.extend({
                 } else {
                   layoutConfig.heightSpec = LayoutSpec.FIT;
                 }
-              } {
+              }
+              {
                 childStyle["height"] = "100%";
               }
             }
@@ -164,6 +164,7 @@ export default Vue.extend({
           .select("#" + this.$data.id)
           .fields(
             {
+              rect: true,
               size: true,
               computedStyle: [
                 "margin-left",

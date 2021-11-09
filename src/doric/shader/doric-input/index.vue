@@ -228,6 +228,7 @@ export default Vue.extend({
           .select("#" + this.$data.id)
           .fields(
             {
+              rect: true,
               size: true,
               computedStyle: [
                 "margin-left",
