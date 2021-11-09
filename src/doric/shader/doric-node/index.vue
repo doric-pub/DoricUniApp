@@ -327,6 +327,10 @@ export default Vue.extend({
           doricStyle["box-shadow"] = boxShadow;
         }
 
+        if (props.alpha !== undefined) {
+          doricStyle["opacity"] = props.alpha.toString();
+        }
+
         doricModel.cssStyle = doricStyle;
         this.$set(this.$data, "doricModel", doricModel);
         this.$set(this.$data, "type", doricModel.nativeViewModel.type);
