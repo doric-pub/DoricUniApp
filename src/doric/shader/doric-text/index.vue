@@ -1,6 +1,12 @@
 <template>
   <div :id="id" class="doric-text" :style="cssStyle">
-    <span v-if="text != null" :style="innerStyle">{{ text }}</span>
+    <span v-if="text != null && htmlText == null" :style="innerStyle">{{
+      text
+    }}</span>
+    <rich-text
+      v-if="text == null && htmlText != null"
+      :nodes="htmlText"
+    ></rich-text>
   </div>
 </template>
 
@@ -37,12 +43,14 @@ export default Vue.extend({
 
         const props = doricModel.nativeViewModel.props as Partial<Text>;
         const doricStyle = doricModel.cssStyle;
-        if (props.textSize) {
-          doricStyle["font-size"] = toPixelString(props.textSize);
-        }
 
         let innerStyle = {} as any;
         innerStyle["white-space"] = "pre-line";
+
+        if (props.text) {
+          this.$set(this.$data, "text", props.text);
+        }
+
         if (props.textColor) {
           if (typeof props.textColor === "number") {
             doricStyle["color"] = toRGBAString(
@@ -119,6 +127,11 @@ export default Vue.extend({
             }
           }
         }
+
+        if (props.textSize) {
+          doricStyle["font-size"] = toPixelString(props.textSize);
+        }
+
         if (props.textAlignment) {
           const gravity = props.textAlignment as unknown as number;
           if ((gravity & LEFT) === LEFT) {
@@ -171,9 +184,12 @@ export default Vue.extend({
 
         innerStyle["text-decoration"] = decoration.map((e) => `${e}`).join(" ");
 
+        if (props.htmlText) {
+          this.$set(this.$data, "htmlText", props.htmlText);
+        }
+
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
         this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
-        this.$set(this.$data, "text", props.text);
       },
     },
   },
@@ -184,6 +200,7 @@ export default Vue.extend({
       cssStyle: null,
 
       text: null,
+      htmlText: null,
       innerStyle: null,
     };
   },
