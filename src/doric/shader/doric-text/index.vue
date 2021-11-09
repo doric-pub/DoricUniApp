@@ -141,6 +141,20 @@ export default Vue.extend({
           innerStyle["text-shadow"] = shadow;
           delete doricStyle["box-shadow"];
         }
+
+        if (props.fontStyle) {
+          if (props.fontStyle === "bold") {
+            innerStyle["font-weight"] = "bold";
+            innerStyle["font-style"] = "normal";
+          } else if (props.fontStyle === "italic") {
+            innerStyle["font-weight"] = "normal";
+            innerStyle["font-style"] = "italic";
+          } else if (props.fontStyle === "bold_italic") {
+            innerStyle["font-weight"] = "bold";
+            innerStyle["font-style"] = "italic";
+          }
+        }
+
         this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
         this.$set(this.$data, "innerStyle", toCSSStyle(innerStyle));
         this.$set(this.$data, "text", props.text);
