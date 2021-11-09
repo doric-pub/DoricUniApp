@@ -42,6 +42,7 @@ export default Vue.extend({
         }
 
         let innerStyle = {} as any;
+        innerStyle["white-space"] = "pre-line";
         if (props.textColor) {
           if (typeof props.textColor === "number") {
             doricStyle["color"] = toRGBAString(
