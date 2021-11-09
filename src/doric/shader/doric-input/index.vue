@@ -302,6 +302,13 @@ export default Vue.extend({
       this.$set(this.$data, "selectionEnd", args.end);
     },
 
+    getSelection() {
+      return {
+        start: this.$data.selectionStart,
+        end: this.$data.selectionEnd,
+      };
+    },
+
     requestFocus() {
       this.$set(this.$data, "focus", true);
     },
