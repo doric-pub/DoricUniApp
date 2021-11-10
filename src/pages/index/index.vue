@@ -40,6 +40,7 @@ import { LayoutDemo } from "../../demo/LayoutDemo";
 import { LayoutTest } from "../../demo/LayoutTestDemo";
 import { ModalDemo } from "../../demo/ModalDemo";
 import { ModularDemo } from "../../demo/ModularDemo";
+import { SliderPanel } from "../../demo/SliderDemo";
 import { SnakePanel } from "../../demo/Snake";
 import { SwitchDemo } from "../../demo/SwitchDemo";
 import { TextDemo } from "../../demo/TextDemo";
@@ -84,6 +85,8 @@ export default Vue.extend({
       classType = ModalDemo;
     } else if (name == "ModularDemo") {
       classType = ModularDemo;
+    } else if (name == "SliderDemo") {
+      classType = SliderPanel;
     } else if (name == "Snake") {
       classType = SnakePanel;
     } else if (name == "SwitchDemo") {
