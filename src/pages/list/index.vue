@@ -11,8 +11,10 @@
     <text class="cell" @click="click('LayoutTestDemo')">LayoutTestDemo</text>
     <text class="cell" @click="click('ModalDemo')">ModalDemo</text>
     <text class="cell" @click="click('ModularDemo')">ModularDemo</text>
+    <text class="cell" @click="click('NetworkDemo')">NetworkDemo</text>
     <text class="cell" @click="click('SliderDemo')">SliderDemo</text>
     <text class="cell" @click="click('Snake')">Snake</text>
+    <text class="cell" @click="click('StorageDemo')">StorageDemo</text>
     <text class="cell" @click="click('SwitchDemo')">SwitchDemo</text>
     <text class="cell" @click="click('TextDemo')">TextDemo</text>
   </view>
@@ -45,7 +47,7 @@ body {
 
 .demo-container {
   width: 100%;
-  height: 100%;
+  height: max-content;
   display: flex;
   flex-direction: column;
 }
