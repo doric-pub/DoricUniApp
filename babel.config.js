@@ -31,10 +31,10 @@ if (
             return path.relative(input, file)
           }
           return false
-        }
-      }
+        },
+      },
     ])
-  } catch (e) {}
+  } catch (e) { }
 }
 
 process.UNI_LIBRARIES = process.UNI_LIBRARIES || ['@dcloudio/uni-ui']
@@ -42,11 +42,11 @@ process.UNI_LIBRARIES.forEach(libraryName => {
   plugins.push([
     'import',
     {
-      'libraryName': libraryName,
-      'customName': (name) => {
+      libraryName: libraryName,
+      customName: (name) => {
         return `${libraryName}/lib/${name}/${name}`
-      }
-    }
+      },
+    },
   ])
 })
 module.exports = {
@@ -55,9 +55,13 @@ module.exports = {
       '@vue/app',
       {
         modules: 'commonjs',
-        useBuiltIns: process.env.UNI_PLATFORM === 'h5' ? 'usage' : 'entry'
-      }
-    ]
+        useBuiltIns: process.env.UNI_PLATFORM === 'h5' ? 'usage' : 'entry',
+      },
+    ],
+    ['@babel/preset-typescript', {
+      allExtensions: true,
+      onlyRemoveTypeImports: true, // this is important for proper files watching
+    }],
   ],
-  plugins
+  plugins,
 }

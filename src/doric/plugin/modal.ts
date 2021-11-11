@@ -1,90 +1,90 @@
-import { callReject, callResolve, Context, DoricPlugin } from "../context";
-import { BOTTOM, TOP, CENTER_Y } from "../utils";
+import { callReject, callResolve, Context, DoricPlugin } from '../context'
+import { BOTTOM, TOP, CENTER_Y } from '../utils'
 
 export class Modal extends DoricPlugin {
-  constructor(context: Context) {
-    super(context);
+  constructor (context: Context) {
+    super(context)
   }
 
-  public toast(callbackId: string, args: { msg: string; gravity: number }) {
-    let position = "bottom";
-    const gravity = args.gravity || BOTTOM;
+  public toast (callbackId: string, args: { msg: string; gravity: number }) {
+    let position = 'bottom'
+    const gravity = args.gravity || BOTTOM
     if ((gravity & TOP) == TOP) {
-      position = "top";
+      position = 'top'
     } else if ((gravity & BOTTOM) == BOTTOM) {
-      position = "bottom";
+      position = 'bottom'
     } else if ((gravity & CENTER_Y) == CENTER_Y) {
-      position = "center";
+      position = 'center'
     }
 
     uni.showToast({
       title: args.msg,
-      position: position as "top" | "center" | "bottom",
+      position: position as 'top' | 'center' | 'bottom',
       duration: 2000,
-      icon: "none",
+      icon: 'none',
       success: () => {
-        callResolve(this.context.id, callbackId);
+        callResolve(this.context.id, callbackId)
       },
       fail: () => {
-        callReject(this.context.id, callbackId);
+        callReject(this.context.id, callbackId)
       },
-    });
+    })
   }
 
-  public alert(
+  public alert (
     callbackId: string,
     args: {
       title?: string;
       msg: string;
       okLabel?: string;
-    }
+    },
   ) {
-    let option = {} as any;
+    const option = {} as any
     if (args.title) {
-      option.title = args.title;
+      option.title = args.title
     }
     if (args.okLabel) {
-      option.confirmText = args.okLabel;
+      option.confirmText = args.okLabel
     }
-    option.content = args.msg;
+    option.content = args.msg
     option.showCancel = false;
     (option.success = () => {
-      callResolve(this.context.id, callbackId);
-    }),
-      uni.showModal(option);
+      callResolve(this.context.id, callbackId)
+    })
+    uni.showModal(option)
   }
 
-  public confirm(
+  public confirm (
     callbackId: string,
     args: {
       title?: string;
       msg: string;
       okLabel?: string;
       cancelLabel?: string;
-    }
+    },
   ) {
-    let option = {} as any;
+    const option = {} as any
     if (args.title) {
-      option.title = args.title;
+      option.title = args.title
     }
     if (args.okLabel) {
-      option.confirmText = args.okLabel;
+      option.confirmText = args.okLabel
     }
     if (args.cancelLabel) {
-      option.cancelText = args.cancelLabel;
+      option.cancelText = args.cancelLabel
     }
     option.content = args.msg;
     (option.success = (result: any) => {
       if (result.confirm) {
-        callResolve(this.context.id, callbackId);
+        callResolve(this.context.id, callbackId)
       } else {
-        callReject(this.context.id, callbackId);
+        callReject(this.context.id, callbackId)
       }
-    }),
-      uni.showModal(option);
+    })
+    uni.showModal(option)
   }
 
-  public prompt(
+  public prompt (
     callbackId: string,
     args: {
       title?: string;
@@ -93,33 +93,33 @@ export class Modal extends DoricPlugin {
       cancelLabel?: string;
       text?: string;
       defaultText?: string;
-    }
+    },
   ) {
-    let option = {} as any;
+    const option = {} as any
     if (args.title) {
-      option.title = args.title;
+      option.title = args.title
     }
     if (args.okLabel) {
-      option.confirmText = args.okLabel;
+      option.confirmText = args.okLabel
     }
     if (args.cancelLabel) {
-      option.cancelText = args.cancelLabel;
+      option.cancelText = args.cancelLabel
     }
     if (args.defaultText) {
-      option.placeholderText = args.defaultText;
+      option.placeholderText = args.defaultText
     }
     if (args.text) {
-      option.content = args.text;
+      option.content = args.text
     }
 
     option.editable = true;
     (option.success = (result: any) => {
       if (result.confirm) {
-        callResolve(this.context.id, callbackId, result.content);
+        callResolve(this.context.id, callbackId, result.content)
       } else {
-        callReject(this.context.id, callbackId);
+        callReject(this.context.id, callbackId)
       }
-    }),
-      uni.showModal(option);
+    })
+    uni.showModal(option)
   }
 }
