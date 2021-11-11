@@ -3,97 +3,60 @@
     :id="id"
     class="doric-switch"
     :style="cssStyle"
+    :color="color"
     :checked="checked"
     @change="onChange"
-  ></switch>
+  />
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Switch } from 'doric'
+import { DoricModel, toCSSStyle, toRGBAString } from '@/doric/utils'
+import { callResponse } from '@/doric/context'
+@Component({
+  name: 'DoricSwitch',
+})
+export default class extends Vue {
+  @Prop() private doricModelProps!:any
+  id:string|null = null
+  cssStyle:unknown = null
+  color = '#04BE02'
+  checked = false
+  onSwitch:any = null
+  @Watch('doricModelProps', { immediate: true })
+  onDoricModelPropsChange (newVal:DoricModel) {
+    const doricModel = newVal
+    this.id = doricModel.nativeViewModel.id
+    const props = doricModel.nativeViewModel.props as Partial<Switch>
+    const doricStyle = doricModel.cssStyle
+    this.cssStyle = toCSSStyle(doricStyle)
+    if (props.state) {
+      this.checked = props.state
+    }
+    if (props.onTintColor) {
+      this.color = toRGBAString(props.onTintColor as unknown as number)
+    }
 
-import { Switch } from "doric";
+    if (props.onSwitch) {
+      this.onSwitch = props.onSwitch
+    }
+    console.log('props', props)
+  }
 
-import { DoricModel, toCSSStyle } from "../../../doric/utils";
-import { callResponse } from "@/doric/context";
-
-export default Vue.extend({
-  props: {
-    doricModelProps: {
-      type: Object,
-    },
-  },
-  watch: {
-    doricModelProps: {
-      immediate: true,
-      handler(newVal) {
-        const doricModel = newVal as DoricModel;
-        this.$set(this.$data, "id", doricModel.nativeViewModel.id);
-
-        const props = doricModel.nativeViewModel.props as Partial<Switch>;
-        const doricStyle = doricModel.cssStyle;
-        this.$set(this.$data, "cssStyle", toCSSStyle(doricStyle));
-
-        if (props.state) {
-          console.log("doric-switch", "toggle by code");
-          this.$set(this.$data, "checked", props.state);
-        }
-
-        if (props.onSwitch) {
-          this.$set(this.$data, "onSwitch", props.onSwitch);
-        }
-      },
-    },
-  },
-
-  data() {
-    return {
-      id: null,
-      cssStyle: null,
-
-      checked: false,
-      onSwitch: null,
-    };
-  },
-
-  methods: {
-    computeSize() {
-      return new Promise((resolve, reject) => {
-        uni
-          .createSelectorQuery()
-          .in(this)
-          .select("#" + this.$data.id)
-          .fields(
-            {
-              rect: true,
-              size: true,
-              computedStyle: [
-                "margin-left",
-                "margin-right",
-                "margin-top",
-                "margin-bottom",
-              ],
-            },
-            (result) => {
-              resolve(result);
-            }
-          )
-          .exec();
-      });
-    },
-    onChange(event: any) {
-      let doricModel = this.$props.doricModelProps;
-      console.log(doricModel);
-      if ((doricModel.idList, this.$data.onSwitch)) {
-        callResponse(
-          doricModel.contextId,
-          doricModel.idList,
-          this.$data.onSwitch,
-          event.detail.value
-        );
-      }
-    },
-  },
-});
+  onChange (event: any) {
+    const doricModel = this.doricModelProps
+    console.log(doricModel)
+    if ((doricModel.idList, this.onSwitch)) {
+      callResponse(
+        doricModel.contextId,
+        doricModel.idList,
+        this.onSwitch,
+        event.detail.value,
+      )
+    }
+  }
+}
 </script>
 
 <style>
