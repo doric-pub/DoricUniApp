@@ -173,7 +173,7 @@ export default Vue.extend({
           innerStyle["line-height"] = `${props.lineSpacing}px`;
         }
 
-        let decoration = [];
+        let decoration: string[] = [];
         if (props.strikethrough) {
           decoration.push("line-through");
         }

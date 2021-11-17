@@ -35,7 +35,7 @@ export function getChildren (doricModel: DoricModel): DoricModel[] {
 }
 
 export function toRGBAString (color: number) {
-  let strs = []
+  let strs: number[] = []
   for (let i = 0; i < 32; i += 8) {
     strs.push((color >> i) & 0xff)
   }

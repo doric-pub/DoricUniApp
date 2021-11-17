@@ -290,7 +290,7 @@ export default Vue.extend({
       let childNodes = this.$refs.childNodes as any[];
       let maxX = 0;
       if (childNodes) {
-        let promises = [];
+        let promises: any[] = [];
         for (let index = 0; index < childNodes.length; index++) {
           const childNode = childNodes[index];
           promises.push(childNode.$children[0].computeSize());
@@ -316,7 +316,7 @@ export default Vue.extend({
       let childNodes = this.$refs.childNodes as any[];
       let maxY = 0;
       if (childNodes) {
-        let promises = [];
+        let promises: any[] = [];
         for (let index = 0; index < childNodes.length; index++) {
           const childNode = childNodes[index];
           promises.push(childNode.$children[0].computeSize());
