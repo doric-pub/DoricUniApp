@@ -218,6 +218,6 @@ export class ImageDemo extends Panel {
   }
 
   onDestroy () {
-    modal(context).toast('onDestroy')
+    modal(this.context).toast('onDestroy')
   }
 }
