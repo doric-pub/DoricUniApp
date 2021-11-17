@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-import { BridgeContext, ClassType, Panel, uniqueId } from 'doric'
+import { BridgeContext, uniqueId } from 'doric'
 import {
   callEntityMethod,
   createContext,
@@ -50,6 +50,8 @@ import { TextDemo } from '@/demo/TextDemo'
 const global = new Function('return this')()
 global.Environment = {
   platform: 'uni-app',
+  localeLanguage: 'zh',
+  localeCountry: 'CN',
 }
 let globalContext: BridgeContext
 
@@ -74,7 +76,11 @@ export default class extends Vue {
     const popover = new Popover(context)
     const self = this
     popover.onModelsChange = function (popoverDoricModels: DoricModel[]) {
-      self.popoverDoricModels = popoverDoricModels
+      if (popoverDoricModels.length > 0) {
+        self.popoverDoricModels = popoverDoricModels
+      } else {
+        self.popoverDoricModels = []
+      }
     }
     context.plugins.set('popover', popover)
 

@@ -382,7 +382,7 @@ class GoBangVM extends ViewModel<GoBangState, GoBangVH> {
       }
     })
     vh.gameMode.onClick = () => {
-      popover(context).show(vlayout(
+      popover(this.context).show(vlayout(
         [
           ...[
             {
@@ -410,14 +410,14 @@ class GoBangVM extends ViewModel<GoBangState, GoBangVH> {
                 s.gameMode = e.mode
                 this.reset(s)
               })
-              popover(context).dismiss()
+              popover(this.context).dismiss()
             },
           })),
         ],
         {
           layoutConfig: layoutConfig().most(),
           onClick: () => {
-            popover(context).dismiss()
+            popover(this.context).dismiss()
           },
           gravity: Gravity.Center,
         }),

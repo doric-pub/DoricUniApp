@@ -19,6 +19,8 @@ import {
   View,
 } from 'doric'
 
+const global = new Function('return this')()
+
 interface CountModel {
   count: number;
 }
@@ -29,14 +31,14 @@ class CounterView extends ViewHolder {
     const group = vlayout(
       [
         text({
-          text: `Current language is ${Environment.localeLanguage}`,
+          text: `Current language is ${global.Environment.localeLanguage}`,
           onClick: function () {
             const v = this as View
             group.removeChild(v)
           },
         }),
         text({
-          text: `Current country is ${Environment.localeCountry}`,
+          text: `Current country is ${global.Environment.localeCountry}`,
           onClick: function () {
             const v = this as View
             group.removeChild(v)
