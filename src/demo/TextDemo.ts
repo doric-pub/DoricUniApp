@@ -1,6 +1,6 @@
 import { Panel, Group, scroller, vlayout, layoutConfig, LayoutSpec, Input, Gravity, log, input, text, Color, Text, InputType, hlayout, GradientOrientation } from 'doric'
 import { title } from './utils'
-@Entry
+
 export class TextDemo extends Panel {
   build (root: Group) {
     scroller(

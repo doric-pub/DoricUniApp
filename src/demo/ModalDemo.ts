@@ -1,7 +1,6 @@
 import { Group, Panel, text, Color, LayoutSpec, vlayout, Gravity, scroller, layoutConfig, modal, Text } from 'doric'
 import { colors, label } from './utils'
 
-@Entry
 export class ModalDemo extends Panel {
   build (rootView: Group): void {
     scroller(

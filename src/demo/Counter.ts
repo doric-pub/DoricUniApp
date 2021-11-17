@@ -91,7 +91,6 @@ class CounterVM extends ViewModel<CountModel, CounterView> {
   }
 }
 
-@Entry
 export class CounterPage extends VMPanel<CountModel, CounterView> {
   state = {
     count: 1,

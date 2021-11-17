@@ -1,7 +1,6 @@
 import { Group, Panel, gravity, Color, LayoutSpec, vlayout, scroller, layoutConfig, modal, network } from "doric";
 import { title, label, colors } from "./utils";
 
-@Entry
 export class NetworkDemo extends Panel {
     build(rootView: Group): void {
         scroller(vlayout([

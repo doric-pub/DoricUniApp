@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-import { uniqueId } from 'doric'
+import { BridgeContext, ClassType, Panel, uniqueId } from 'doric'
 import {
   callEntityMethod,
   createContext,
@@ -51,6 +51,8 @@ const global = new Function('return this')()
 global.Environment = {
   platform: 'uni-app',
 }
+let globalContext: BridgeContext
+
 @Component({
   name: 'index',
 })
@@ -64,7 +66,7 @@ export default class extends Vue {
     const context = createContext(contextId, classType!)
     const panel = context.entity
 
-    global.context = context
+    globalContext = context
 
     // #region Plugins
     context.plugins.set('modal', new Modal(context))
@@ -161,7 +163,7 @@ export default class extends Vue {
         size: true,
       },
       (data) => {
-        callEntityMethod(context.id, '__build__', {
+        callEntityMethod(globalContext.id, '__build__', {
           width: data.width,
           height: data.height,
         })
@@ -170,15 +172,15 @@ export default class extends Vue {
   }
 
   onShow () {
-    callEntityMethod(context.id, '__onShow__')
+    callEntityMethod(globalContext.id, '__onShow__')
   }
 
   onHide () {
-    callEntityMethod(context.id, '__onHidden__')
+    callEntityMethod(globalContext.id, '__onHidden__')
   }
 
   onUnload () {
-    callEntityMethod(context.id, '__onDestroy__')
+    callEntityMethod(globalContext.id, '__onDestroy__')
     if (this.doricModel.contextId) destroyContext(this.doricModel.contextId)
   }
 

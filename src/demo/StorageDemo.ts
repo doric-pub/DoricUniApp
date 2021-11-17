@@ -2,7 +2,7 @@ import { storage, Panel, scroller, vlayout, text, layoutConfig, LayoutSpec, Colo
 import { colors, label } from "./utils";
 const storedKey = 'StoredKey'
 const zone = 'StorageDemo'
-@Entry
+
 export class StorageDemo extends Panel {
     stored!: Text
 

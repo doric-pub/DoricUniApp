@@ -19,7 +19,7 @@ const imageUrls = [
   'http://h.hiphotos.baidu.com/image/pic/item/810a19d8bc3eb1354c94a704ac1ea8d3fd1f4439.jpg',
   'http://calonye.com/wp-content/uploads/2015/08/0-wx_fmtgiftpwebpwxfrom5wx_lazy1-9.gif',
 ]
-@Entry
+
 export class SliderPanel extends Panel {
   build (rootView: Group): void {
     const pager = slider({

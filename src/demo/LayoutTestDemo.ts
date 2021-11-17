@@ -173,7 +173,7 @@ function case6 () {
     },
   )
 }
-@Entry
+
 export class LayoutTest extends Panel {
   build (root: Group) {
     scroller(

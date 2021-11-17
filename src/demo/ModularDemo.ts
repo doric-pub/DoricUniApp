@@ -399,7 +399,6 @@ class ResetModule extends SingleModule {
   }
 }
 
-@Entry
 export class ModularDemo extends ModularPanel {
   constructor () {
     super()
