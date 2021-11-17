@@ -8,6 +8,8 @@ import { DrawableResource } from 'doric/lib/src/util/resource'
 
 const imageUrl = 'https://img.zcool.cn/community/01e75b5da933daa801209e1ffa4649.jpg@1280w_1l_2o_100sh.jpg'
 
+const global = new Function('return this')()
+
 export class ImageDemo extends Panel {
   build (rootView: Group): void {
     let imageView: Image
@@ -26,7 +28,7 @@ export class ImageDemo extends Panel {
 
           label('Button'),
           image({
-            image: Environment.platform === 'Android'
+            image: global.Environment.platform === 'Android'
               ? new DrawableResource('doric_icon_back')
               : new MainBundleResource('Hanabi.ttf'),
           }),
@@ -186,7 +188,7 @@ export class ImageDemo extends Panel {
         layoutConfig: layoutConfig().most(),
       },
     ).also(it => {
-      coordinator(context).verticalScrolling({
+      coordinator(this.context).verticalScrolling({
         scrollable: it,
         scrollRange: {
           start: 0,
@@ -199,7 +201,7 @@ export class ImageDemo extends Panel {
           end: Color.RED,
         },
       })
-      coordinator(context).verticalScrolling({
+      coordinator(this.context).verticalScrolling({
         scrollable: it,
         scrollRange: {
           start: 0,
