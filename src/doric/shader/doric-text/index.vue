@@ -48,6 +48,8 @@ export default class extends Vue {
 
     if (props.text) {
       this.text = props.text
+    } else {
+      this.text = ''
     }
 
     if (props.textColor) {
