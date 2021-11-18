@@ -34,9 +34,9 @@ export class Modal extends DoricPlugin {
   public alert (
     callbackId: string,
     args: {
-      title?: string;
-      msg: string;
-      okLabel?: string;
+      title?: string
+      msg: string
+      okLabel?: string
     },
   ) {
     const option = {} as any
@@ -47,20 +47,20 @@ export class Modal extends DoricPlugin {
       option.confirmText = args.okLabel
     }
     option.content = args.msg
-    option.showCancel = false;
-    (option.success = () => {
+    option.showCancel = false
+    option.success = () => {
       callResolve(this.context.id, callbackId)
-    })
+    }
     uni.showModal(option)
   }
 
   public confirm (
     callbackId: string,
     args: {
-      title?: string;
-      msg: string;
-      okLabel?: string;
-      cancelLabel?: string;
+      title?: string
+      msg: string
+      okLabel?: string
+      cancelLabel?: string
     },
   ) {
     const option = {} as any
@@ -73,26 +73,26 @@ export class Modal extends DoricPlugin {
     if (args.cancelLabel) {
       option.cancelText = args.cancelLabel
     }
-    option.content = args.msg;
-    (option.success = (result: any) => {
+    option.content = args.msg
+    option.success = (result: any) => {
       if (result.confirm) {
         callResolve(this.context.id, callbackId)
       } else {
         callReject(this.context.id, callbackId)
       }
-    })
+    }
     uni.showModal(option)
   }
 
   public prompt (
     callbackId: string,
     args: {
-      title?: string;
-      msg?: string;
-      okLabel?: string;
-      cancelLabel?: string;
-      text?: string;
-      defaultText?: string;
+      title?: string
+      msg?: string
+      okLabel?: string
+      cancelLabel?: string
+      text?: string
+      defaultText?: string
     },
   ) {
     const option = {} as any
@@ -112,14 +112,14 @@ export class Modal extends DoricPlugin {
       option.content = args.text
     }
 
-    option.editable = true;
-    (option.success = (result: any) => {
+    option.editable = true
+    option.success = (result: any) => {
       if (result.confirm) {
         callResolve(this.context.id, callbackId, result.content)
       } else {
         callReject(this.context.id, callbackId)
       }
-    })
+    }
     uni.showModal(option)
   }
 }

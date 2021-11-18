@@ -1,14 +1,8 @@
-import {
-  BridgeContext,
-  Panel,
-  ClassType,
-  registerViewTreeObserver,
-  uniqueId,
-} from 'doric'
+import { BridgeContext, Panel, ClassType, registerViewTreeObserver, uniqueId } from 'doric'
 const gContexts: Map<string, Context> = new Map()
 
 const updator = () => {
-  gContexts.forEach((context) => {
+  gContexts.forEach(context => {
     context.hookAfter?.()
   })
   updatorTask = undefined
@@ -23,20 +17,11 @@ registerViewTreeObserver(() => {
   updatorTask = setTimeout(updator, 0)
 })
 
-export function callResponse (
-  contextId: string,
-  idList: string[],
-  funcId: string,
-  args?: any,
-) {
+export function callResponse (contextId: string, idList: string[], funcId: string, args?: any) {
   return callEntityMethod(contextId, '__response__', idList, funcId, args)
 }
 
-export function callEntityMethod (
-  contextId: string,
-  methodName: string,
-  ..._: any
-) {
+export function callEntityMethod (contextId: string, methodName: string, ..._: any) {
   const context = gContexts.get(contextId)
 
   if (context === undefined) {
@@ -52,15 +37,9 @@ export function callEntityMethod (
     for (let i = 2; i < arguments.length; i++) {
       argumentsList.push(arguments[i])
     }
-    return Reflect.apply(
-      Reflect.get(context.entity, methodName),
-      context.entity,
-      argumentsList,
-    )
+    return Reflect.apply(Reflect.get(context.entity, methodName), context.entity, argumentsList)
   } else {
-    console.error(
-      `Cannot find method for context id:${contextId},method name is:${methodName}`,
-    )
+    console.error(`Cannot find method for context id:${contextId},method name is:${methodName}`)
   }
 }
 
@@ -109,9 +88,7 @@ export function callResolve (contextId: string, callbackId: string, args?: any) 
   }
   const callback = context.callbacks.get(callbackId)
   if (callback === undefined) {
-    console.error(
-      `Cannot find call for context id:${contextId},callback id:${callbackId}`,
-    )
+    console.error(`Cannot find call for context id:${contextId},callback id:${callbackId}`)
     return
   }
   const argumentsList: any = []
@@ -129,9 +106,7 @@ export function callReject (contextId: string, callbackId: string, args?: any) {
   }
   const callback = context.callbacks.get(callbackId)
   if (callback === undefined) {
-    console.error(
-      `Cannot find call for context id:${contextId},callback id:${callbackId}`,
-    )
+    console.error(`Cannot find call for context id:${contextId},callback id:${callbackId}`)
     return
   }
   const argumentsList: any = []
@@ -176,12 +151,12 @@ export class Context implements BridgeContext {
   }
 }
 
-export type DoricPluginClass = { new(...args: any[]): {} };
+export type DoricPluginClass = { new (...args: any[]): {} }
 export class DoricPlugin {
   context: Context
   constructor (context: Context) {
     this.context = context
   }
 
-  onTearDown () { }
+  onTearDown () {}
 }

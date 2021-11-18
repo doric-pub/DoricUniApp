@@ -6,9 +6,9 @@ export class Shader extends DoricPlugin {
   public command (
     callbackId: string,
     value: {
-      viewIds: Array<string>;
-      name: string;
-      args: any[];
+      viewIds: Array<string>
+      name: string
+      args: any[]
     },
   ) {
     if (this.targetView) {

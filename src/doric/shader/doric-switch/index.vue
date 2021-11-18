@@ -18,14 +18,16 @@ import { callResponse } from '@/doric/context'
   name: 'DoricSwitch',
 })
 export default class extends Vue {
-  @Prop() private doricModelProps!:any
-  id:string|null = null
-  cssStyle:unknown = null
+  @Prop() private doricModelProps!: any
+
+  id: string | null = null
+  cssStyle: unknown = null
   color = '#04BE02'
   checked = false
-  onSwitch:any = null
+  onSwitch: any = null
+
   @Watch('doricModelProps', { immediate: true })
-  onDoricModelPropsChange (newVal:DoricModel) {
+  onDoricModelPropsChange (newVal: DoricModel) {
     const doricModel = newVal
     this.id = doricModel.nativeViewModel.id
     const props = doricModel.nativeViewModel.props as Partial<Switch>
@@ -46,12 +48,7 @@ export default class extends Vue {
   onChange (event: any) {
     const doricModel = this.doricModelProps
     if ((doricModel.idList, this.onSwitch)) {
-      callResponse(
-        doricModel.contextId,
-        doricModel.idList,
-        this.onSwitch,
-        event.detail.value,
-      )
+      callResponse(doricModel.contextId, doricModel.idList, this.onSwitch, event.detail.value)
     }
   }
 }

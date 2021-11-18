@@ -18,11 +18,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 import { BridgeContext, uniqueId } from 'doric'
-import {
-  callEntityMethod,
-  createContext,
-  destroyContext,
-} from '@/doric/context'
+import { callEntityMethod, createContext, destroyContext } from '@/doric/context'
 import { DoricModel, Queue } from '@/doric/utils'
 
 import { Shader } from '@/doric/plugin/shader'
@@ -59,8 +55,8 @@ let globalContext: BridgeContext
   name: 'index',
 })
 export default class extends Vue {
-  doricModel:any = null
-  popoverDoricModels:any[] = []
+  doricModel: any = null
+  popoverDoricModels: any[] = []
   onLoad (option: AnyObject) {
     const name = option.name
     const contextId = uniqueId('context')
@@ -85,11 +81,7 @@ export default class extends Vue {
     context.plugins.set('popover', popover)
 
     const shader = new Shader(context)
-    shader.targetView = (value: {
-      viewIds: Array<string>;
-      name: string;
-      args: any[];
-    }) => {
+    shader.targetView = (value: { viewIds: Array<string>; name: string; args: any[] }) => {
       const queue = new Queue()
       for (let index = 0; index < value.viewIds.length; index++) {
         const viewId = value.viewIds[index]
@@ -99,9 +91,7 @@ export default class extends Vue {
       let tempNode
       const doricContainer = this.$refs.doricContainer as any
       if (doricContainer) {
-        if (
-          queue.peek() === doricContainer.doricModelProps.nativeViewModel.id
-        ) {
+        if (queue.peek() === doricContainer.doricModelProps.nativeViewModel.id) {
           tempNode = doricContainer
           queue.dequeue()
         }
@@ -112,10 +102,7 @@ export default class extends Vue {
         for (let index = 0; index < doricPopoverContainers.length; index++) {
           const doricPopoverContainer = doricPopoverContainers[index]
 
-          if (
-            queue.peek() ===
-            doricPopoverContainer.doricModelProps.nativeViewModel.id
-          ) {
+          if (queue.peek() === doricPopoverContainer.doricModelProps.nativeViewModel.id) {
             tempNode = doricPopoverContainer
             continue
           }
@@ -164,17 +151,21 @@ export default class extends Vue {
   }
 
   onReady () {
-    uni.createSelectorQuery().select('.doric-container').fields(
-      {
-        size: true,
-      },
-      (data) => {
-        callEntityMethod(globalContext.id, '__build__', {
-          width: data.width,
-          height: data.height,
-        })
-      },
-    ).exec()
+    uni
+      .createSelectorQuery()
+      .select('.doric-container')
+      .fields(
+        {
+          size: true,
+        },
+        data => {
+          callEntityMethod(globalContext.id, '__build__', {
+            width: data.width,
+            height: data.height,
+          })
+        },
+      )
+      .exec()
   }
 
   onShow () {
@@ -190,7 +181,7 @@ export default class extends Vue {
     if (this.doricModel.contextId) destroyContext(this.doricModel.contextId)
   }
 
-  getComponent (name:string) {
+  getComponent (name: string) {
     let classType
     switch (name) {
       case 'ComponentDemo':
