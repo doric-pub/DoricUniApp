@@ -46,10 +46,8 @@ export default class extends Vue {
     const innerStyle = {} as any
     innerStyle['white-space'] = 'pre-line'
 
-    if (props.text) {
+    if (props.text != null) {
       this.text = props.text
-    } else {
-      this.text = ''
     }
 
     if (props.textColor) {
