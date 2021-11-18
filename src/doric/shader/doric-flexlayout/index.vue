@@ -129,5 +129,6 @@ export default class extends Vue {
 <style>
 .doric-flexlayout {
   display: flex;
+  overflow: hidden;
 }
 </style>
