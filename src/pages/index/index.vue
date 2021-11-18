@@ -25,6 +25,7 @@ import { Shader } from '@/doric/plugin/shader'
 import { Modal } from '@/doric/plugin/modal'
 import { Popover } from '@/doric/plugin/popover'
 import { Storage } from '@/doric/plugin/storage'
+import { Network } from '@/doric/plugin/network'
 
 import { ComponentDemo } from '@/demo/ComponentDemo'
 import { CounterPage } from '@/demo/Counter'
@@ -139,6 +140,9 @@ export default class extends Vue {
 
     const storage = new Storage(context)
     context.plugins.set('storage', storage)
+
+    const network = new Network(context)
+    context.plugins.set('network', network)
 
     // #endregion
 

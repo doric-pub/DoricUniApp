@@ -1,8 +1,6 @@
-import { callReject, callResolve, Context, DoricPlugin } from '../context'
+import { callReject, callResolve, DoricPlugin } from '../context'
 
 export class Storage extends DoricPlugin {
-  public targetView?: Function
-
   public setItem (
     callbackId: string,
     value: {
