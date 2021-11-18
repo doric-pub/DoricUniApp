@@ -2072,6 +2072,8 @@ class Group extends Superview {
                 const ret = Reflect.set(target, index, value);
                 // Let getDirty return true
                 this.dirtyProps.children = target.map(e => e.viewId);
+
+                viewTreeObserver === null || viewTreeObserver === void 0 ? void 0 : viewTreeObserver();
                 return ret;
             }
         });
