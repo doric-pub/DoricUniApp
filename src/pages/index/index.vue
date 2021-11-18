@@ -30,6 +30,7 @@ import { Network } from '@/doric/plugin/network'
 import { ComponentDemo } from '@/demo/ComponentDemo'
 import { CounterPage } from '@/demo/Counter'
 import { EffectsDemo } from '@/demo/EffectsDemo'
+import { FlexDemo } from '@/demo/FlexDemo'
 import { Gobang } from '@/demo/Gobang'
 import { HelloDoric } from '@/demo/HelloDoric'
 import { ImageDemo } from '@/demo/ImageDemo'
@@ -200,6 +201,9 @@ export default class extends Vue {
         break
       case 'EffectsDemo':
         classType = EffectsDemo
+        break
+      case 'FlexDemo':
+        classType = FlexDemo
         break
       case 'Gobang':
         classType = Gobang

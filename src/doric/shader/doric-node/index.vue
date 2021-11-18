@@ -44,6 +44,11 @@
     :doricModelProps="doricModel"
     @click.native.stop="onclick"
   />
+  <DoricFlexLayout
+    v-else-if="type === 'FlexLayout' && !(doricModel.nativeViewModel.props.hidden === true)"
+    :doricModelProps="doricModel"
+    @click.native.stop="onclick"
+  />
   <view v-else>
     <text v-if="type !== null && !(doricModel.nativeViewModel.props.hidden === true)"
       >Error: {{ type }}</text
@@ -67,6 +72,7 @@ import DoricRoot from '@/doric/shader/doric-root/index.vue'
 import DoricScroller from '@/doric/shader/doric-scroller/index.vue'
 import DoricSwitch from '@/doric/shader/doric-switch/index.vue'
 import DoricInput from '@/doric/shader/doric-input/index.vue'
+import DoricFlexLayout from '@/doric/shader/doric-flexlayout/index.vue'
 
 @Component({
   name: 'DoricNode',
@@ -80,6 +86,7 @@ import DoricInput from '@/doric/shader/doric-input/index.vue'
     DoricScroller,
     DoricSwitch,
     DoricInput,
+    DoricFlexLayout,
   },
 })
 export default class extends Vue {

@@ -9,6 +9,9 @@
     <text class="cell" @click="click('EffectsDemo')">
       EffectsDemo
     </text>
+    <text class="cell" @click="click('FlexDemo')">
+      FlexDemo
+    </text>
     <text class="cell" @click="click('Gobang')">
       Gobang
     </text>
