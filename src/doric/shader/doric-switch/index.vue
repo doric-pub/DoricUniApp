@@ -41,12 +41,10 @@ export default class extends Vue {
     if (props.onSwitch) {
       this.onSwitch = props.onSwitch
     }
-    console.log('props', props)
   }
 
   onChange (event: any) {
     const doricModel = this.doricModelProps
-    console.log(doricModel)
     if ((doricModel.idList, this.onSwitch)) {
       callResponse(
         doricModel.contextId,

@@ -7,7 +7,7 @@ export class StorageDemo extends Panel {
     stored!: Text
 
     update() {
-        storage(context).getItem(storedKey, zone).then(e => {
+        storage(this.context).getItem(storedKey, zone).then(e => {
             this.stored.text = e || ""
             log('Called in then')
         })
@@ -41,13 +41,13 @@ export class StorageDemo extends Panel {
                 textColor: Color.WHITE,
                 layoutConfig: layoutConfig().just(),
                 onClick: () => {
-                    storage(context).getItem(storedKey, zone).then(e => {
-                        modal(context).prompt({
+                    storage(this.context).getItem(storedKey, zone).then(e => {
+                        modal(this.context).prompt({
                             text: e,
                             title: "Please input text to store",
                             defaultText: "Default Value",
                         }).then(text => {
-                            storage(context).setItem(storedKey, text, zone).then(() => {
+                            storage(this.context).setItem(storedKey, text, zone).then(() => {
                                 this.update()
                             })
                         })
@@ -62,7 +62,7 @@ export class StorageDemo extends Panel {
                 textColor: Color.WHITE,
                 layoutConfig: layoutConfig().just(),
                 onClick: () => {
-                    storage(context).remove(storedKey, zone).then(e => {
+                    storage(this.context).remove(storedKey, zone).then(e => {
                         this.update()
                     })
                 },
@@ -75,7 +75,7 @@ export class StorageDemo extends Panel {
                 textColor: Color.WHITE,
                 layoutConfig: layoutConfig().just(),
                 onClick: () => {
-                    storage(context).clear(zone).then(e => {
+                    storage(this.context).clear(zone).then(e => {
                         this.update()
                     })
                 },

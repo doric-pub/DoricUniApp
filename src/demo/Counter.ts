@@ -17,7 +17,7 @@ import {
   modal,
   Panel,
   View,
-} from 'doric'
+} from "doric";
 
 const global = new Function('return this')()
 
@@ -25,71 +25,70 @@ interface CountModel {
   count: number;
 }
 class CounterView extends ViewHolder {
-  number!: Text
-  counter!: Text
-  build (root: Group) {
-    const group = vlayout(
+  number!: Text;
+  counter!: Text;
+  build(root: Group) {
+    let group = vlayout(
       [
         text({
           text: `Current language is ${global.Environment.localeLanguage}`,
           onClick: function () {
             const v = this as View
             group.removeChild(v)
-          },
+          }
         }),
         text({
           text: `Current country is ${global.Environment.localeCountry}`,
           onClick: function () {
             const v = this as View
             group.removeChild(v)
-          },
+          }
         }),
         text({
-          text: 'Click to remove',
+          text: "Click to remove",
           textSize: 30,
           onClick: function () {
             const v = this as View
             group.removeChild(v)
-          },
+          }
         }),
         this.number = text({
           textSize: 40,
-          tag: 'tvNumber',
+          tag: "tvNumber",
         }),
 
         this.counter = text({
-          text: 'Click To Count 1',
+          text: "Click To Count 1",
           textSize: 20,
-          tag: 'tvCounter',
+          tag: "tvCounter",
         }),
       ],
       {
         layoutConfig: layoutConfig().most(),
         gravity: Gravity.Center,
         space: 20,
-      },
-    ).in(root)
+      }
+    ).in(root);
   }
 }
 
 class CounterVM extends ViewModel<CountModel, CounterView> {
-  onAttached (s: CountModel, vh: CounterView) {
+  onAttached(s: CountModel, vh: CounterView) {
     vh.counter.onClick = () => {
       Promise.resolve(this.getState().count).then(count => {
         Promise.resolve().then(() => {
           this.updateState((state) => {
-            state.count = count + 1
-          })
+            state.count = count + 1;
+          });
         })
       })
-    }
+    };
   }
-
-  onBind (s: CountModel, vh: CounterView) {
-    vh.number.text = `${s.count}`
-    log(`Current count  is ${s.count}`)
-    logw(`Current count is ${s.count}`)
-    loge(`Current count is ${s.count}`)
+  onBind(s: CountModel, vh: CounterView) {
+    vh.number.text = `${s.count}`;
+    log(`Current count  is ${s.count}`);
+    logw(`Current count is ${s.count}`);
+    loge(`Current count is ${s.count}`);
   }
 }
 
@@ -97,21 +96,19 @@ export class CounterPage extends VMPanel<CountModel, CounterView> {
   state = {
     count: 1,
   }
-
-  constructor () {
-    super()
-    log('Constructor')
+  constructor() {
+    super();
+    log("Constructor");
+  }
+  getViewHolderClass() {
+    return CounterView;
   }
 
-  getViewHolderClass () {
-    return CounterView
+  getViewModelClass() {
+    return CounterVM;
   }
 
-  getViewModelClass () {
-    return CounterVM
-  }
-
-  getState (): CountModel {
-    return this.state
+  getState(): CountModel {
+    return this.state;
   }
 }

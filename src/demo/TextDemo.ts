@@ -1,243 +1,243 @@
-import { Panel, Group, scroller, vlayout, layoutConfig, LayoutSpec, Input, Gravity, log, input, text, Color, Text, InputType, hlayout, GradientOrientation } from 'doric'
-import { title } from './utils'
+import { Panel, Group, scroller, vlayout, layoutConfig, LayoutSpec, Input, Gravity, log, input, text, Color, Text, InputType, hlayout, GradientOrientation } from "doric";
+import { title } from "./utils";
 
 export class TextDemo extends Panel {
-  build (root: Group) {
-    scroller(
-      vlayout(
-        [
-          title('Text Demo'),
-          input({
-            width: 100,
-            height: 100,
-            inputType: InputType.Number,
-            hintText: 'number',
-          }),
-          hlayout([
-            text({
-              text: 'size 10',
-              textSize: 10,
-              backgroundColor: Color.GREEN,
-            }),
-            text({
-              text: 'size 25',
-              textSize: 25,
-              backgroundColor: Color.BLUE,
-            }),
-            text({
-              text: 'size 18',
-              textSize: 18,
-              backgroundColor: Color.LTGRAY,
-            }),
-          ], {
-            backgroundColor: Color.RED,
-            height: 50,
-            gravity: Gravity.CenterX,
-            layoutConfig: layoutConfig().configWidth(LayoutSpec.MOST).configHeight(LayoutSpec.JUST),
-          }),
-          text({
-            text: 'This is normal text',
-          }),
-          hlayout([
-            text({
-              text: 'T_B',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.TOP_BOTTOM,
-              },
-            }),
-            text({
-              text: 'B_T',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.BOTTOM_TOP,
-              },
-            }),
-          ], {
-            space: 20,
-          }),
-          hlayout([
-            text({
-              text: 'TR_BL',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.TR_BL,
-              },
-            }),
-            text({
-              text: 'BL_TR',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.BL_TR,
-              },
-            }),
-          ], {
-            space: 20,
-          }),
-          hlayout([
-            text({
-              text: 'R_L',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.RIGHT_LEFT,
-              },
-            }),
-            text({
-              text: 'L_R',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.LEFT_RIGHT,
-              },
-            }),
-          ], {
-            space: 20,
-          }),
-          hlayout([
-            text({
-              text: 'BR_TL',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.BR_TL,
-              },
-            }),
-            text({
-              text: 'TL_BR',
-              textSize: 60,
-              textColor: {
-                start: Color.RED,
-                end: Color.GREEN,
-                orientation: GradientOrientation.TL_BR,
-              },
-            }),
-          ], {
-            space: 20,
-          }),
-          text({
-            text: 'grad',
-            textSize: 100,
-            textColor: {
-              colors: [Color.GREEN, Color.WHITE, Color.RED],
-              locations: [0, 0.5, 1],
-              orientation: GradientOrientation.TOP_BOTTOM,
-            },
-          }),
-          text({
-            text: 'This is normal text with shadow ',
-            textSize: 20,
-            shadow: {
-              color: Color.parse('#1DD6DE'),
-              offsetX: 0,
-              offsetY: 1,
-              opacity: 0.8,
-              radius: 3.0,
-            },
-          }),
-          text({
-            text: 'This is normal text',
-            textSize: 30,
-          }),
-          text({
-            text: 'This is bold text',
-            fontStyle: 'bold',
-          }),
-          text({
-            text: 'This is bold text',
-            textSize: 30,
-            fontStyle: 'bold',
-          }),
-          text({
-            text: 'This is italic text',
-            fontStyle: 'italic',
-          }),
-          text({
-            text: 'This is italic text',
-            textSize: 30,
-            fontStyle: 'italic',
-          }),
-          text({
-            text: 'This is bold_italic text',
-            fontStyle: 'bold_italic',
-          }),
-          text({
-            text: 'This is bold_italic text',
-            textSize: 30,
-            fontStyle: 'bold_italic',
-          }),
-          text({
-            text: 'Icon Font text from   \ue631 ',
-            textSize: 10,
-            font: 'iconfont',
-          }),
-          text({
-            text: 'Icon Font text from   \ue631 ',
-            textSize: 30,
-            font: 'iconfont',
-          }),
-          text({
-            text: 'Icon Font text from res/font/  \ue631 ',
-            textSize: 10,
-            font: 'font_iconfont',
-          }),
-          text({
-            text: 'Icon Font text from res/font/  \ue631 ',
-            textSize: 30,
-            font: 'font_iconfont.ttf',
-          }),
-          text({
-            text: 'Icon Font text from assets/fonts/  \ue631 ',
-            textSize: 10,
-            font: 'fonts/assets_iconfont',
-          }),
-          text({
-            text: 'Icon Font text from assets/fonts/  \ue631 ',
-            textSize: 30,
-            font: 'fonts/assets_iconfont.ttf',
-          }),
-          text({
-            text: 'This is line Spaceing 0,\nSecond line',
-            maxLines: 0,
-          }),
-          text({
-            text: 'This is line Spaceing 40,\nSecond line',
-            maxLines: 0,
-            lineSpacing: 40,
-            textColor: Color.RED,
-            textAlignment: Gravity.Right,
-            onClick: function () {
-              (this as Text).textAlignment = Gravity.Left;
-              (this as Text).textColor = Color.BLACK
-            },
-          }),
-          text({
-            text: 'This is strikethrough text.',
-            textSize: 20,
-            textColor: Color.RED,
-            strikethrough: true,
-          }),
-          text({
-            text: 'This is underline text.',
-            textSize: 20,
-            textColor: Color.BLUE,
-            underline: true,
-          }),
-          text({
-            maxLines: 0,
-            maxWidth: root.width,
-            htmlText: `<div>
+    build(root: Group) {
+        scroller(
+            vlayout(
+                [
+                    title("Text Demo"),
+                    input({
+                        width: 100,
+                        height: 100,
+                        inputType: InputType.Number,
+                        hintText: "number"
+                    }),
+                    hlayout([
+                        text({
+                            text: "size 10",
+                            textSize: 10,
+                            backgroundColor: Color.GREEN
+                        }),
+                        text({
+                            text: "size 25",
+                            textSize: 25,
+                            backgroundColor: Color.BLUE
+                        }),
+                        text({
+                            text: "size 18",
+                            textSize: 18,
+                            backgroundColor: Color.LTGRAY,
+                        })
+                    ], {
+                        backgroundColor: Color.RED,
+                        height: 50,
+                        gravity: Gravity.CenterX,
+                        layoutConfig: layoutConfig().configWidth(LayoutSpec.MOST).configHeight(LayoutSpec.JUST),
+                    }),
+                    text({
+                        text: "This is normal text",
+                    }),
+                    hlayout([
+                        text({
+                            text: "T_B",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.TOP_BOTTOM,
+                            }
+                        }),
+                        text({
+                            text: "B_T",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.BOTTOM_TOP,
+                            }
+                        }),
+                    ], {
+                        space: 20
+                    }),
+                    hlayout([
+                        text({
+                            text: "TR_BL",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.TR_BL,
+                            }
+                        }),
+                        text({
+                            text: "BL_TR",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.BL_TR,
+                            }
+                        }),
+                    ], {
+                        space: 20
+                    }),
+                    hlayout([
+                        text({
+                            text: "R_L",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.RIGHT_LEFT,
+                            }
+                        }),
+                        text({
+                            text: "L_R",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.LEFT_RIGHT,
+                            }
+                        }),
+                    ], {
+                        space: 20
+                    }),
+                    hlayout([
+                        text({
+                            text: "BR_TL",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.BR_TL,
+                            }
+                        }),
+                        text({
+                            text: "TL_BR",
+                            textSize: 60,
+                            textColor: {
+                                start: Color.RED,
+                                end: Color.GREEN,
+                                orientation: GradientOrientation.TL_BR,
+                            }
+                        }),
+                    ], {
+                        space: 20
+                    }),
+                    text({
+                        text: "grad",
+                        textSize: 100,
+                        textColor: {
+                            colors: [Color.GREEN, Color.WHITE, Color.RED],
+                            locations: [0, 0.5, 1],
+                            orientation: GradientOrientation.TOP_BOTTOM
+                        }
+                    }),
+                    text({
+                        text: "This is normal text with shadow ",
+                        textSize: 20,
+                        shadow: {
+                            color: Color.parse("#1DD6DE"),
+                            offsetX: 0,
+                            offsetY: 1,
+                            opacity: 0.8,
+                            radius: 3.0
+                        }
+                    }),
+                    text({
+                        text: "This is normal text",
+                        textSize: 30,
+                    }),
+                    text({
+                        text: "This is bold text",
+                        fontStyle: "bold",
+                    }),
+                    text({
+                        text: "This is bold text",
+                        textSize: 30,
+                        fontStyle: "bold"
+                    }),
+                    text({
+                        text: "This is italic text",
+                        fontStyle: "italic"
+                    }),
+                    text({
+                        text: "This is italic text",
+                        textSize: 30,
+                        fontStyle: "italic"
+                    }),
+                    text({
+                        text: "This is bold_italic text",
+                        fontStyle: "bold_italic"
+                    }),
+                    text({
+                        text: "This is bold_italic text",
+                        textSize: 30,
+                        fontStyle: "bold_italic"
+                    }),
+                    text({
+                        text: "Icon Font text from   \ue631 ",
+                        textSize: 10,
+                        font: 'iconfont'
+                    }),
+                    text({
+                        text: "Icon Font text from   \ue631 ",
+                        textSize: 30,
+                        font: 'iconfont'
+                    }),
+                    text({
+                        text: "Icon Font text from res/font/  \ue631 ",
+                        textSize: 10,
+                        font: 'font_iconfont'
+                    }),
+                    text({
+                        text: "Icon Font text from res/font/  \ue631 ",
+                        textSize: 30,
+                        font: 'font_iconfont.ttf'
+                    }),
+                    text({
+                        text: "Icon Font text from assets/fonts/  \ue631 ",
+                        textSize: 10,
+                        font: 'fonts/assets_iconfont'
+                    }),
+                    text({
+                        text: "Icon Font text from assets/fonts/  \ue631 ",
+                        textSize: 30,
+                        font: 'fonts/assets_iconfont.ttf'
+                    }),
+                    text({
+                        text: "This is line Spaceing 0,\nSecond line",
+                        maxLines: 0,
+                    }),
+                    text({
+                        text: "This is line Spaceing 40,\nSecond line",
+                        maxLines: 0,
+                        lineSpacing: 40,
+                        textColor: Color.RED,
+                        textAlignment: Gravity.Right,
+                        onClick: function () {
+                            (this as Text).textAlignment = Gravity.Left;
+                            (this as Text).textColor = Color.BLACK;
+                        }
+                    }),
+                    text({
+                        text: "This is strikethrough text.",
+                        textSize: 20,
+                        textColor: Color.RED,
+                        strikethrough: true,
+                    }),
+                    text({
+                        text: "This is underline text.",
+                        textSize: 20,
+                        textColor: Color.BLUE,
+                        underline: true,
+                    }),
+                    text({
+                        maxLines: 0,
+                        maxWidth: root.width,
+                        htmlText: `<div>
 <h1>Supported tags by default</h1>
 <ul>
 <li>
@@ -357,17 +357,18 @@ Please note that the browser adds line breaks before and after the blockquote el
 </li>
 </ul>
 </div>
-                    `,
-          }),
-        ],
-        {
-          space: 10,
-          layoutConfig: layoutConfig().most().configHeight(LayoutSpec.FIT),
-        },
-      ),
-      {
-        layoutConfig: layoutConfig().most(),
-      },
-    ).in(root)
-  }
+                    `
+                    }),
+                ],
+                {
+                    space: 10,
+                    layoutConfig: layoutConfig().most().configHeight(LayoutSpec.FIT)
+                }
+            ),
+            {
+                layoutConfig: layoutConfig().most()
+            }
+        ).in(root)
+    }
+
 }

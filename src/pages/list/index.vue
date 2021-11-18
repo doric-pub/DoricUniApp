@@ -33,11 +33,17 @@
     <text class="cell" @click="click('ModularDemo')">
       ModularDemo
     </text>
+    <text class="cell" @click="click('NetworkDemo')">
+      NetworkDemo
+    </text>
     <text class="cell" @click="click('SliderDemo')">
       SliderDemo
     </text>
     <text class="cell" @click="click('Snake')">
       Snake
+    </text>
+    <text class="cell" @click="click('StorageDemo')">
+      StorageDemo
     </text>
     <text class="cell" @click="click('SwitchDemo')">
       SwitchDemo

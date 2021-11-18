@@ -3,3 +3,4 @@ src/wxcomponents/**/*
 /*.js
 config/**/*
 build/**/*
+src/demo/**/*
