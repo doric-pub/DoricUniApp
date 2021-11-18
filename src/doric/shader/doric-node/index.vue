@@ -132,7 +132,12 @@ export default class extends Vue {
         width = 'max-content'
         break
       case LayoutSpec.MOST:
-        width = '100%'
+        if (props.padding) {
+          width = `calc(100 - ${props.padding.left}px - ${props.padding.right}px)`
+        } else {
+          width = '100%'
+        }
+
         break
       case LayoutSpec.JUST:
       default:
@@ -152,7 +157,11 @@ export default class extends Vue {
         height = 'max-content'
         break
       case LayoutSpec.MOST:
-        height = '100%'
+        if (props.padding) {
+          height = `calc(100 - ${props.padding.top}px - ${props.padding.bottom}px)`
+        } else {
+          height = '100%'
+        }
         break
       case LayoutSpec.JUST:
       default:
