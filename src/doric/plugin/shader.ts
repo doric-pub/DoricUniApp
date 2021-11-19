@@ -23,9 +23,15 @@ export class Shader extends DoricPlugin {
         view = view.$parent
       }
 
-      const func = Reflect.get(view, value.name)
-      const result = Reflect.apply(func, view, value.args ? [value.args] : [])
-      callResolve(this.context.id, callbackId, result)
+      try {
+        const func = Reflect.get(view, value.name)
+        const result = Reflect.apply(func, view, value.args ? [value.args] : [])
+        callResolve(this.context.id, callbackId, result)
+      } catch (error) {
+        console.error(
+          view.doricModelProps.nativeViewModel.type + ' ' + value.name + ' ' + 'invoke error',
+        )
+      }
     }
   }
 }

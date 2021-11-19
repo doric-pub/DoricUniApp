@@ -1,5 +1,5 @@
 <template>
-  <swiper :id="id" class="doric-slider" :style="cssStyle">
+  <swiper :id="id" class="doric-slider" :style="cssStyle" :current="current">
     <swiper-item v-for="item in children" :key="item.nativeViewModel.id">
       <DoricNode :doric-model-props="item" />
     </swiper-item>
@@ -25,6 +25,8 @@ export default class extends Vue {
   loop = false
   renderPage: unknown = null
   onPageSlided: unknown = null
+
+  current = 0
 
   @Watch('doricModelProps', { immediate: true })
   onDoricModelPropsChange (newVal: DoricModel) {
@@ -79,6 +81,14 @@ export default class extends Vue {
       this.children = doricModels
       console.log(this.children)
     }
+  }
+
+  slidePage (args: { page: number; smooth: boolean }) {
+    this.current = args.page
+  }
+
+  getSlidedPage () {
+    return this.current
   }
 }
 </script>
