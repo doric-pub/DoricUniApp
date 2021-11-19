@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { Image, ScaleType } from 'doric'
+import { Image, LayoutConfig, LayoutSpec, ScaleType } from 'doric'
 import { DoricModel, toCSSStyle } from '@/doric/utils'
 import { callResponse } from '@/doric/context'
 
@@ -35,12 +35,6 @@ export default class extends Vue {
     const props = doricModel.nativeViewModel.props as Partial<Image>
 
     const doricStyle = doricModel.cssStyle
-    if (doricStyle.width === 'max-content') {
-      delete doricStyle.width
-    }
-    if (doricStyle.height === 'max-content') {
-      delete doricStyle.height
-    }
 
     if (props.imageUrl) {
       this.imageUrl = props.imageUrl
@@ -77,6 +71,37 @@ export default class extends Vue {
 
   onload (event: any) {
     const doricModel = this.doricModelProps
+
+    const doricStyle = doricModel.cssStyle
+    const layoutConfig = doricModel.nativeViewModel.props.layoutConfig as LayoutConfig
+    if (layoutConfig) {
+      if (layoutConfig.widthSpec == LayoutSpec.FIT && layoutConfig.heightSpec == LayoutSpec.FIT) {
+        doricStyle.width = `${event.detail.width}px`
+        doricStyle.height = `${event.detail.height}px`
+      } else if (
+        layoutConfig.widthSpec == LayoutSpec.FIT &&
+        layoutConfig.heightSpec == LayoutSpec.JUST
+      ) {
+        if (this.mode == 'aspectFit') {
+          const height = parseFloat((doricStyle.height as string).replace('px', ''))
+          doricStyle.width = `${(event.detail.width * height) / event.detail.height}px`
+        }
+      } else if (
+        layoutConfig.widthSpec == LayoutSpec.JUST &&
+        layoutConfig.heightSpec == LayoutSpec.FIT
+      ) {
+        if (this.mode == 'aspectFit') {
+          const width = parseFloat((doricStyle.width as string).replace('px', ''))
+          doricStyle.height = `${(event.detail.height * width) / event.detail.width}px`
+        }
+      }
+    }
+
+    const cssStyle = Object.entries(doricStyle)
+      .map(e => `${e[0]}:${e[1]}`)
+      .join(';')
+    this.cssStyle = cssStyle
+
     if ((doricModel.idList, this.loadCallback)) {
       callResponse(doricModel.contextId, doricModel.idList, this.loadCallback as string, {
         width: event.detail.width,
