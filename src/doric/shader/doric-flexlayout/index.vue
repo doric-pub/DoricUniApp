@@ -1,21 +1,18 @@
 <template>
   <view :id="id" class="doric-flexlayout" :style="cssStyle">
-    <DoricNode v-for="item in children" :key="item.nativeViewModel.id" :doric-model-props="item" />
+    <DoricNode
+      v-for="item in children"
+      :key="item.nativeViewModel.id"
+      :doric-model-props="item"
+      :style="item.nodeStyle"
+    />
   </view>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { DoricModel, getChildren, toCSSStyle, toPixelString } from '@/doric/utils'
-import {
-  Align,
-  FlexConfig,
-  FlexDirection,
-  FlexTypedValue,
-  LayoutConfig,
-  LayoutSpec,
-  Wrap,
-} from 'doric'
+import { Align, FlexConfig, FlexDirection, LayoutConfig, LayoutSpec, View, Wrap } from 'doric'
 
 @Component({
   name: 'DoricFlexLayout',
@@ -32,7 +29,44 @@ export default class extends Vue {
     const doricModel = newVal
     this.id = doricModel.nativeViewModel.id
     const doricStyle = doricModel.cssStyle
-    this.children = getChildren(doricModel)
+    const children = getChildren(doricModel)
+    console.log(this.children)
+
+    if (children != null) {
+      for (let index = 0; index < children.length; index++) {
+        const child = children[index]
+        const props = child.nativeViewModel.props as Partial<View>
+
+        const nodeStyle: Record<string, string> = {}
+
+        if (props.flexConfig) {
+          const flexConfig = props.flexConfig
+
+          if (flexConfig.alignSelf) {
+            if ((flexConfig.alignSelf as number) == Align.AUTO) {
+              nodeStyle['align-self'] = 'unset'
+            } else if ((flexConfig.alignSelf as number) == Align.FLEX_START) {
+              nodeStyle['align-self'] = 'flex-start'
+            } else if ((flexConfig.alignSelf as number) == Align.CENTER) {
+              nodeStyle['align-self'] = 'center'
+            } else if ((flexConfig.alignSelf as number) == Align.FLEX_END) {
+              nodeStyle['align-self'] = 'flex-end'
+            } else if ((flexConfig.alignSelf as number) == Align.STRETCH) {
+              nodeStyle['align-self'] = 'stretch'
+            } else if ((flexConfig.alignSelf as number) == Align.BASELINE) {
+              nodeStyle['align-self'] = 'baseline'
+            } else if ((flexConfig.alignSelf as number) == Align.SPACE_BETWEEN) {
+              nodeStyle['align-self'] = 'space-between'
+            } else if ((flexConfig.alignSelf as number) == Align.SPACE_AROUND) {
+              nodeStyle['align-self'] = 'space-around'
+            }
+          }
+        }
+
+        (child as any).nodeStyle = toCSSStyle(nodeStyle)
+      }
+    }
+    this.children = children
 
     const flexConfig = doricModel.nativeViewModel.props.flexConfig as Partial<FlexConfig>
     console.log(flexConfig)

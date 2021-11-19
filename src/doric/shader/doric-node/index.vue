@@ -59,7 +59,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 
-import { GradientColor, GradientOrientation, LayoutSpec, NativeViewModel, View } from 'doric'
+import { Align, GradientColor, GradientOrientation, LayoutSpec, NativeViewModel, View } from 'doric'
 import { toPixelString, toRGBAString, DoricModel } from '@/doric/utils'
 import { callResponse } from '@/doric/context'
 
@@ -289,6 +289,55 @@ export default class extends Vue {
 
     if (props.alpha !== undefined) {
       doricStyle['opacity'] = props.alpha.toString()
+    }
+
+    if (props.flexConfig) {
+      const flexConfig = props.flexConfig
+
+      if (flexConfig.alignContent) {
+        if ((flexConfig.alignContent as number) == Align.AUTO) {
+          doricStyle['align-content'] = 'unset'
+        } else if ((flexConfig.alignContent as number) == Align.FLEX_START) {
+          doricStyle['align-content'] = 'flex-start'
+        } else if ((flexConfig.alignContent as number) == Align.CENTER) {
+          doricStyle['align-content'] = 'center'
+        } else if ((flexConfig.alignContent as number) == Align.FLEX_END) {
+          doricStyle['align-content'] = 'flex-end'
+        } else if ((flexConfig.alignContent as number) == Align.STRETCH) {
+          doricStyle['align-content'] = 'stretch'
+        } else if ((flexConfig.alignContent as number) == Align.BASELINE) {
+          doricStyle['align-content'] = 'baseline'
+        } else if ((flexConfig.alignContent as number) == Align.SPACE_BETWEEN) {
+          doricStyle['align-content'] = 'space-between'
+        } else if ((flexConfig.alignContent as number) == Align.SPACE_AROUND) {
+          doricStyle['align-content'] = 'space-around'
+        }
+      }
+
+      if (flexConfig.marginLeft) {
+        const type = Object.getPrototypeOf(flexConfig.marginLeft)
+        if (type == Number.prototype) {
+          doricStyle['margin-left'] = toPixelString((flexConfig.marginLeft as number) || 0)
+        }
+      }
+      if (flexConfig.marginRight) {
+        const type = Object.getPrototypeOf(flexConfig.marginRight)
+        if (type == Number.prototype) {
+          doricStyle['margin-right'] = toPixelString((flexConfig.marginRight as number) || 0)
+        }
+      }
+      if (flexConfig.marginTop) {
+        const type = Object.getPrototypeOf(flexConfig.marginTop)
+        if (type == Number.prototype) {
+          doricStyle['margin-top'] = toPixelString((flexConfig.marginTop as number) || 0)
+        }
+      }
+      if (flexConfig.marginBottom) {
+        const type = Object.getPrototypeOf(flexConfig.marginBottom)
+        if (type == Number.prototype) {
+          doricStyle['margin-bottom'] = toPixelString((flexConfig.marginBottom as number) || 0)
+        }
+      }
     }
 
     doricModel.cssStyle = doricStyle
