@@ -17,8 +17,8 @@ registerViewTreeObserver(() => {
   updatorTask = setTimeout(updator, 0)
 })
 
-export function callResponse (contextId: string, idList: string[], funcId: string, args?: any) {
-  return callEntityMethod(contextId, '__response__', idList, funcId, args)
+export function callResponse (contextId: string, idList: string[], funcId: string, ..._: any) {
+  return callEntityMethod(contextId, '__response__', idList, funcId, ..._)
 }
 
 export function callEntityMethod (contextId: string, methodName: string, ..._: any) {

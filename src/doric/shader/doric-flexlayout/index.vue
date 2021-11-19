@@ -30,7 +30,6 @@ export default class extends Vue {
     this.id = doricModel.nativeViewModel.id
     const doricStyle = doricModel.cssStyle
     const children = getChildren(doricModel)
-    console.log(this.children)
 
     if (children != null) {
       for (let index = 0; index < children.length; index++) {
