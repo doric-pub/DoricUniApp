@@ -37,6 +37,7 @@ import { ImageDemo } from '@/demo/ImageDemo'
 import { InputDemo } from '@/demo/InputDemo'
 import { LayoutDemo } from '@/demo/LayoutDemo'
 import { LayoutTest } from '@/demo/LayoutTestDemo'
+import { ListPanel } from '@/demo/ListDemo'
 import { ModalDemo } from '@/demo/ModalDemo'
 import { ModularDemo } from '@/demo/ModularDemo'
 import { NetworkDemo } from '@/demo/NetworkDemo'
@@ -222,6 +223,9 @@ export default class extends Vue {
         break
       case 'LayoutTestDemo':
         classType = LayoutTest
+        break
+      case 'ListDemo':
+        classType = ListPanel
         break
       case 'ModalDemo':
         classType = ModalDemo

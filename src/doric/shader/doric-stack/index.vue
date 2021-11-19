@@ -90,16 +90,21 @@ export default class extends Vue {
     this.childStyles = childStyles
 
     // handle stack size
-    await this.calculateStackSize()
-    let parent = this.$parent as any
-    while (parent) {
-      if (parent.doricModelProps) {
-        if (parent.doricModelProps.nativeViewModel.type === 'Stack' && parent.calculateStackSize) {
-          await parent.calculateStackSize()
+    this.$nextTick(async () => {
+      await this.calculateStackSize()
+      let parent = this.$parent as any
+      while (parent) {
+        if (parent.doricModelProps) {
+          if (
+            parent.doricModelProps.nativeViewModel.type === 'Stack' &&
+            parent.calculateStackSize
+          ) {
+            await parent.calculateStackSize()
+          }
         }
+        parent = parent.$parent
       }
-      parent = parent.$parent
-    }
+    })
   }
 
   async calculateStackSize() {

@@ -1,18 +1,16 @@
 <template>
-  <swiper :id="id" class="doric-slider" :style="cssStyle" :current="current">
-    <swiper-item v-for="item in children" :key="item.nativeViewModel.id">
-      <DoricNode :doric-model-props="item" />
-    </swiper-item>
-  </swiper>
+  <view :id="id" class="doric-list" :style="cssStyle">
+    <DoricNode v-for="item in children" :key="item.nativeViewModel.id" :doric-model-props="item" />
+  </view>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { DoricModel, toCSSStyle } from '@/doric/utils'
-import { Slider } from 'doric/lib/src/widget/index.widget'
+import { List } from 'doric'
 import { callResponse } from '@/doric/context'
 @Component({
-  name: 'DoricSlider',
+  name: 'DoricList',
 })
 export default class extends Vue {
   @Prop() private doricModelProps!: any
@@ -22,11 +20,7 @@ export default class extends Vue {
   children: unknown = null
 
   itemCount = 0
-  loop = false
-  renderPage: unknown = null
-  onPageSlided: unknown = null
-
-  current = 0
+  renderItem: unknown = null
 
   @Watch('doricModelProps', { immediate: true })
   onDoricModelPropsChange (newVal: DoricModel) {
@@ -36,24 +30,20 @@ export default class extends Vue {
 
     let changed = false
 
-    const props = doricModel.nativeViewModel.props as Partial<Slider>
+    const props = doricModel.nativeViewModel.props as Partial<List>
+
     if (props.itemCount) {
+      if (this.itemCount !== props.itemCount) {
+        changed = true
+      }
       this.itemCount = props.itemCount
     }
 
-    if (props.loop) {
-      this.loop = props.loop
-    }
-
-    if (props.renderPage) {
-      if (this.renderPage !== props.renderPage) {
+    if (props.renderItem) {
+      if (this.renderItem !== props.renderItem) {
         changed = true
       }
-      this.renderPage = props.renderPage
-    }
-
-    if (props.onPageSlided) {
-      this.onPageSlided = props.onPageSlided
+      this.renderItem = props.renderItem
     }
 
     if (changed) {
@@ -82,18 +72,10 @@ export default class extends Vue {
       console.log(this.children)
     }
   }
-
-  slidePage (args: { page: number; smooth: boolean }) {
-    this.current = args.page
-  }
-
-  getSlidedPage () {
-    return this.current
-  }
 }
 </script>
 
 <style>
-.doric-slider {
+.doric-list {
 }
 </style>

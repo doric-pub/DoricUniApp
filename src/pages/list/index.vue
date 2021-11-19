@@ -30,6 +30,9 @@
     <text class="cell" @click="click('LayoutTestDemo')">
       LayoutTestDemo
     </text>
+    <text class="cell" @click="click('ListDemo')">
+      ListDemo
+    </text>
     <text class="cell" @click="click('ModalDemo')">
       ModalDemo
     </text>
