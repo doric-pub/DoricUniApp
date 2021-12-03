@@ -27,6 +27,7 @@ import { Popover } from '@/doric/plugin/popover'
 import { Storage } from '@/doric/plugin/storage'
 import { Network } from '@/doric/plugin/network'
 
+import { Animations } from '@/demo/AnimationsDemo'
 import { ComponentDemo } from '@/demo/ComponentDemo'
 import { CounterPage } from '@/demo/Counter'
 import { EffectsDemo } from '@/demo/EffectsDemo'
@@ -194,6 +195,9 @@ export default class extends Vue {
   getComponent (name: string) {
     let classType
     switch (name) {
+      case 'AnimationsDemo':
+        classType = Animations
+        break
       case 'ComponentDemo':
         classType = ComponentDemo
         break
