@@ -13,12 +13,14 @@ export class Shader extends DoricPlugin {
   ) {
     if (this.targetView) {
       let view = this.targetView(value)
+      console.log(view)
       if (
         value.name == 'getWidth' ||
         value.name == 'getHeight' ||
         value.name == 'getX' ||
         value.name == 'getY' ||
-        value.name == 'getLocationOnScreen'
+        value.name == 'getLocationOnScreen' ||
+        value.name == 'doAnimation'
       ) {
         view = view.$parent
       }

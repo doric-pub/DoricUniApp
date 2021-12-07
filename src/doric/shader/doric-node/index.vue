@@ -79,7 +79,16 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 
-import { Align, GradientColor, GradientOrientation, LayoutSpec, NativeViewModel, View } from 'doric'
+import {
+  Align,
+  GradientColor,
+  GradientOrientation,
+  IAnimation,
+  LayoutSpec,
+  NativeViewModel,
+  TranslationAnimation,
+  View,
+} from 'doric'
 import { toPixelString, toRGBAString, DoricModel } from '@/doric/utils'
 import { callResponse } from '@/doric/context'
 
@@ -427,6 +436,18 @@ export default class extends Vue {
     } else {
       return 0
     }
+  }
+
+  async doAnimation(args: TranslationAnimation) {
+    const changeables = args.changeables
+    const repeatCount = args.repeatCount
+    const repeatMode = args.repeatMode
+    const fillMode = args.fillMode
+    const timingFunction = args.timingFunction
+    console.log(args)
+    uni.createAnimation({
+      
+    })
   }
 }
 </script>
