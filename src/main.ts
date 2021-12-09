@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import DoricNode from '@/doric/shader/doric-node/index.vue'
-import computeSizeMinxin from '@/global/mixins/computeSize'
-
-import { doricInterface } from '@/doric/interface'
+import DoricNode from '../node_modules/doric-mp-vue/package/doric/shader/doric-node/index.vue'
+import computeSizeMinxin from '../node_modules/doric-mp-vue/package/global/mixins/computeSize'
+import { doricInterface } from '../node_modules/doric-mp-vue/package/doric/interface'
 
 Vue.mixin(computeSizeMinxin)
 Vue.config.productionTip = false

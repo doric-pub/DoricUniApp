@@ -18,14 +18,19 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 import { BridgeContext, uniqueId } from 'doric'
-import { callEntityMethod, createContext, destroyContext } from '@/doric/context'
-import { DoricModel, Queue } from '@/doric/utils'
 
-import { Shader } from '@/doric/plugin/shader'
-import { Modal } from '@/doric/plugin/modal'
-import { Popover } from '@/doric/plugin/popover'
-import { Storage } from '@/doric/plugin/storage'
-import { Network } from '@/doric/plugin/network'
+import { doricInterface } from '../../../node_modules/doric-mp-vue/package/doric/interface'
+import {
+  callEntityMethod,
+  createContext,
+  destroyContext,
+} from '../../../node_modules/doric-mp-vue/package/doric/context'
+import { DoricModel, Queue } from '../../../node_modules/doric-mp-vue/package/doric/utils'
+import { Shader } from '../../../node_modules/doric-mp-vue/package/doric/plugin/shader'
+import { Modal } from '../../../node_modules/doric-mp-vue/package/doric/plugin/modal'
+import { Popover } from '../../../node_modules/doric-mp-vue/package/doric/plugin/popover'
+import { Storage } from '../../../node_modules/doric-mp-vue/package/doric/plugin/storage'
+import { Network } from '../../../node_modules/doric-mp-vue/package/doric/plugin/network'
 
 import { Animations } from '@/demo/AnimationsDemo'
 import { ComponentDemo } from '@/demo/ComponentDemo'
@@ -47,7 +52,6 @@ import { SnakePanel } from '@/demo/Snake'
 import { StorageDemo } from '@/demo/StorageDemo'
 import { SwitchDemo } from '@/demo/SwitchDemo'
 import { TextDemo } from '@/demo/TextDemo'
-import { doricInterface } from '@/doric/interface'
 
 const global = new Function('return this')()
 global.Environment = {

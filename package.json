@@ -60,6 +60,7 @@
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
     "doric": ">=0.9.21",
+    "doric-mp-vue": "0.0.1",
     "flyio": "^0.6.2",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.11",
