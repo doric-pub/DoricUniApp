@@ -1,63 +1,63 @@
 <template>
   <view class="demo-container">
-    <text class="cell" @click="click('AnimationsDemo')">
+    <text class="cell" @tap="click('AnimationsDemo')">
       AnimationsDemo
     </text>
-    <text class="cell" @click="click('ComponentDemo')">
+    <text class="cell" @tap="click('ComponentDemo')">
       ComponentDemo
     </text>
-    <text class="cell" @click="click('Counter')">
+    <text class="cell" @tap="click('Counter')">
       Counter
     </text>
-    <text class="cell" @click="click('EffectsDemo')">
+    <text class="cell" @tap="click('EffectsDemo')">
       EffectsDemo
     </text>
-    <text class="cell" @click="click('FlexDemo')">
+    <text class="cell" @tap="click('FlexDemo')">
       FlexDemo
     </text>
-    <text class="cell" @click="click('Gobang')">
+    <text class="cell" @tap="click('Gobang')">
       Gobang
     </text>
-    <text class="cell" @click="click('HelloDoric')">
+    <text class="cell" @tap="click('HelloDoric')">
       HelloDoric
     </text>
-    <text class="cell" @click="click('ImageDemo')">
+    <text class="cell" @tap="click('ImageDemo')">
       ImageDemo
     </text>
-    <text class="cell" @click="click('InputDemo')">
+    <text class="cell" @tap="click('InputDemo')">
       InputDemo
     </text>
-    <text class="cell" @click="click('LayoutDemo')">
+    <text class="cell" @tap="click('LayoutDemo')">
       LayoutDemo
     </text>
-    <text class="cell" @click="click('LayoutTestDemo')">
+    <text class="cell" @tap="click('LayoutTestDemo')">
       LayoutTestDemo
     </text>
-    <text class="cell" @click="click('ListDemo')">
+    <text class="cell" @tap="click('ListDemo')">
       ListDemo
     </text>
-    <text class="cell" @click="click('ModalDemo')">
+    <text class="cell" @tap="click('ModalDemo')">
       ModalDemo
     </text>
-    <text class="cell" @click="click('ModularDemo')">
+    <text class="cell" @tap="click('ModularDemo')">
       ModularDemo
     </text>
-    <text class="cell" @click="click('NetworkDemo')">
+    <text class="cell" @tap="click('NetworkDemo')">
       NetworkDemo
     </text>
-    <text class="cell" @click="click('SliderDemo')">
+    <text class="cell" @tap="click('SliderDemo')">
       SliderDemo
     </text>
-    <text class="cell" @click="click('Snake')">
+    <text class="cell" @tap="click('Snake')">
       Snake
     </text>
-    <text class="cell" @click="click('StorageDemo')">
+    <text class="cell" @tap="click('StorageDemo')">
       StorageDemo
     </text>
-    <text class="cell" @click="click('SwitchDemo')">
+    <text class="cell" @tap="click('SwitchDemo')">
       SwitchDemo
     </text>
-    <text class="cell" @click="click('TextDemo')">
+    <text class="cell" @tap="click('TextDemo')">
       TextDemo
     </text>
   </view>
