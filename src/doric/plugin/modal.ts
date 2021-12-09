@@ -1,5 +1,6 @@
 import { callReject, callResolve, Context, DoricPlugin } from '../context'
 import { BOTTOM, TOP, CENTER_Y } from '../utils'
+import { doricInterface } from '../interface'
 
 export class Modal extends DoricPlugin {
   constructor (context: Context) {
@@ -17,7 +18,7 @@ export class Modal extends DoricPlugin {
       position = 'center'
     }
 
-    uni.showToast({
+    doricInterface.showToast({
       title: args.msg,
       position: position as 'top' | 'center' | 'bottom',
       duration: 2000,
@@ -51,7 +52,7 @@ export class Modal extends DoricPlugin {
     option.success = () => {
       callResolve(this.context.id, callbackId)
     }
-    uni.showModal(option)
+    doricInterface.showModal(option)
   }
 
   public confirm (
@@ -81,7 +82,7 @@ export class Modal extends DoricPlugin {
         callReject(this.context.id, callbackId)
       }
     }
-    uni.showModal(option)
+    doricInterface.showModal(option)
   }
 
   public prompt (
@@ -120,6 +121,6 @@ export class Modal extends DoricPlugin {
         callReject(this.context.id, callbackId)
       }
     }
-    uni.showModal(option)
+    doricInterface.showModal(option)
   }
 }

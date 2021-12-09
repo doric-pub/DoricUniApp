@@ -1,4 +1,5 @@
 import { callReject, callResolve, DoricPlugin } from '../context'
+import { doricInterface } from '../interface'
 
 export class Storage extends DoricPlugin {
   public setItem (
@@ -9,7 +10,7 @@ export class Storage extends DoricPlugin {
       zone: string
     },
   ) {
-    uni.setStorage({
+    doricInterface.setStorage({
       key: value.zone + '_' + value.key,
       data: value.value,
       success: (result: any) => {
@@ -28,7 +29,7 @@ export class Storage extends DoricPlugin {
       zone: string
     },
   ) {
-    uni.getStorage({
+    doricInterface.getStorage({
       key: value.zone + '_' + value.key,
       success: (result: any) => {
         callResolve(this.context.id, callbackId, result.data)
@@ -46,7 +47,7 @@ export class Storage extends DoricPlugin {
       zone: string
     },
   ) {
-    uni.removeStorage({
+    doricInterface.removeStorage({
       key: value.zone + '_' + value.key,
       success: (result: any) => {
         callResolve(this.context.id, callbackId)
@@ -60,12 +61,12 @@ export class Storage extends DoricPlugin {
       zone: string
     },
   ) {
-    uni.getStorageInfo({
+    doricInterface.getStorageInfo({
       success: (result: any) => {
         const keys = result.keys as string[]
         keys.forEach(key => {
           if (key.includes(value.zone + '_')) {
-            uni.removeStorageSync(key)
+            doricInterface.removeStorageSync(key)
           }
         })
         callResolve(this.context.id, callbackId)

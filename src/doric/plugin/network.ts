@@ -1,4 +1,5 @@
 import { callReject, callResolve, DoricPlugin } from '../context'
+import { doricInterface } from '../interface'
 
 export class Network extends DoricPlugin {
   public request (
@@ -19,6 +20,6 @@ export class Network extends DoricPlugin {
         callReject(this.context.id, callbackId, result)
       },
     }
-    uni.request(options as any)
+    doricInterface.request(options as any)
   }
 }

@@ -106,6 +106,7 @@ import DoricSlider from '@/doric/shader/doric-slider/index.vue'
 import DoricSlideItem from '@/doric/shader/doric-slideitem/index.vue'
 import DoricList from '@/doric/shader/doric-list/index.vue'
 import DoricListItem from '@/doric/shader/doric-listitem/index.vue'
+import { doricInterface } from '@/doric/interface'
 
 @Component({
   name: 'DoricNode',
@@ -445,9 +446,7 @@ export default class extends Vue {
     const fillMode = args.fillMode
     const timingFunction = args.timingFunction
     console.log(args)
-    uni.createAnimation({
-      
-    })
+    doricInterface.createAnimation({})
   }
 }
 </script>
