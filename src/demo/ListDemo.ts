@@ -21,7 +21,7 @@ async function loadData(offset: number): Promise<{
         setTimeout(() => {
             resolve({
                 isEnd: offset > 100,
-                data: new Array(5).fill(offset).map((e, idx) => {
+                data: new Array(30).fill(offset).map((e, idx) => {
                     return { text: `Item: ${e + idx}` }
                 })
             })
@@ -77,7 +77,7 @@ class ListVM extends ViewModel<ListModel, ListVH> {
                         },
                         height: 50,
                         onClick: function () {
-                            (this as Text).height += 10
+                            (this as Text).backgroundColor = Color.RED
                         }
                     })
                 ]), {

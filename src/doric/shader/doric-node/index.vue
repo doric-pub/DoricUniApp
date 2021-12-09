@@ -2,72 +2,72 @@
   <DoricText
     v-if="type === 'Text' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricImage
     v-else-if="type === 'Image' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricVLayout
     v-else-if="type === 'VLayout' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricHLayout
     v-else-if="type === 'HLayout' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricStack
     v-else-if="type === 'Stack' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricRoot
     v-else-if="type === 'Root' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricScroller
     v-else-if="type === 'Scroller' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricSwitch
     v-else-if="type === 'Switch' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricInput
     v-else-if="type === 'Input' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricFlexLayout
     v-else-if="type === 'FlexLayout' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricSlider
     v-else-if="type === 'Slider' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricSlideItem
     v-else-if="type === 'SlideItem' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricList
     v-else-if="type === 'List' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <DoricListItem
     v-else-if="type === 'ListItem' && !(doricModel.nativeViewModel.props.hidden === true)"
     :doricModelProps="doricModel"
-    @click.native.stop="onclick"
+    @tap.native.stop="onclick"
   />
   <view v-else>
     <text v-if="type !== null && !(doricModel.nativeViewModel.props.hidden === true)"
@@ -79,7 +79,16 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 
-import { Align, GradientColor, GradientOrientation, LayoutSpec, NativeViewModel, View } from 'doric'
+import {
+  Align,
+  GradientColor,
+  GradientOrientation,
+  IAnimation,
+  LayoutSpec,
+  NativeViewModel,
+  TranslationAnimation,
+  View,
+} from 'doric'
 import { toPixelString, toRGBAString, DoricModel } from '@/doric/utils'
 import { callResponse } from '@/doric/context'
 
@@ -427,6 +436,18 @@ export default class extends Vue {
     } else {
       return 0
     }
+  }
+
+  async doAnimation(args: TranslationAnimation) {
+    const changeables = args.changeables
+    const repeatCount = args.repeatCount
+    const repeatMode = args.repeatMode
+    const fillMode = args.fillMode
+    const timingFunction = args.timingFunction
+    console.log(args)
+    uni.createAnimation({
+      
+    })
   }
 }
 </script>
