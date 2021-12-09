@@ -47,6 +47,7 @@ import { SnakePanel } from '@/demo/Snake'
 import { StorageDemo } from '@/demo/StorageDemo'
 import { SwitchDemo } from '@/demo/SwitchDemo'
 import { TextDemo } from '@/demo/TextDemo'
+import { doricInterface } from '@/doric/interface'
 
 const global = new Function('return this')()
 global.Environment = {
@@ -162,7 +163,7 @@ export default class extends Vue {
   }
 
   onReady () {
-    uni
+    doricInterface
       .createSelectorQuery()
       .select('.doric-container')
       .fields(

@@ -1,9 +1,11 @@
+import { doricInterface } from '@/doric/interface'
+
 export default {
   methods: {
     computeSize (): Promise<any> {
       return new Promise((resolve, reject) => {
         const id = (this as any).id
-        uni
+        doricInterface
           .createSelectorQuery()
           .in(this)
           .select('#' + id)

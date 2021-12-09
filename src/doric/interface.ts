@@ -10,6 +10,18 @@ class Interface {
     return this._instance || (this._instance = new this())
   }
 
+  // #region createSelectorQuery
+  private _createSelectorQuery: Function
+
+  public get createSelectorQuery (): Function {
+    return this._createSelectorQuery
+  }
+
+  public set createSelectorQuery (value: Function) {
+    this._createSelectorQuery = value
+  }
+  // #endregion
+
   // #region showToast
   private _showToast: Function
 

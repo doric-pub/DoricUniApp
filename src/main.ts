@@ -4,11 +4,13 @@ import App from './App.vue'
 import DoricNode from '@/doric/shader/doric-node/index.vue'
 import computeSizeMinxin from '@/global/mixins/computeSize'
 
-import { doricInterface } from './doric/interface'
+import { doricInterface } from '@/doric/interface'
 
 Vue.mixin(computeSizeMinxin)
 Vue.config.productionTip = false
 Vue.component('DoricNode', DoricNode)
+
+doricInterface.createSelectorQuery = uni.createSelectorQuery
 
 doricInterface.showToast = uni.showToast
 doricInterface.showModal = uni.showModal

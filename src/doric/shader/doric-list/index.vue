@@ -15,6 +15,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { DoricModel, toCSSStyle } from '@/doric/utils'
 import { LayoutConfig, LayoutSpec, List } from 'doric'
 import { callResponse } from '@/doric/context'
+import { doricInterface } from '@/doric/interface'
 @Component({
   name: 'DoricList',
 })
@@ -40,7 +41,7 @@ export default class extends Vue {
     this.cssStyle = toCSSStyle(doricModel.cssStyle)
 
     const id = (this as any).id
-    uni
+    doricInterface
       .createSelectorQuery()
       .in(this)
       .select('#' + id)
